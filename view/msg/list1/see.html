@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html style="height: 100%;">
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../../layui/css/layui.css"/>
+		<script src="../../../js/jquery-2.1.0.js"></script>
+		<script src="../../../layui/layui.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+		<script src="../../../js/public.js"></script>
+	</head>
+
+	<body class="my-body" style="height: 100%;padding-right: 0;overflow-x: hidden;">
+		
+		<div class="my-breadcrumb">
+			<!--<span>产品维护</span>
+			<i>/</i>
+			<span>产品管理</span>-->
+			<span class="layui-breadcrumb">
+			  <a>消息中心</a>
+			  <a><cite class='data-cite'>服务咨询</cite></a>
+			</span>
+		</div>
+		<div class="my-content" style="height: calc(100% - 56px); padding-right: 0;padding-bottom: 0;">
+			<div class="layui-tab layui-tab-brief my-msg-nav" lay-filter="docDemoTabBrief">
+			  <ul class="layui-tab-title">
+			    <li class="layui-this msg-li">
+			    	<a class="" href="../child1/view.html">服务咨询</a>
+			    	<span class='msg-num  msg-show'>1</span>
+			    </li>
+			    <li class="msg-li">
+			    	<a class="" href="../child2/view.html">产品维修</a>
+			    	<span class='msg-num msg-show'>2</span>
+			    </li>
+			    <li class="msg-li"> 
+			    	<a class="" href="../child3/view.html">合作申请</a>
+			    	<span class='msg-num msg-show'>3</span>
+			    </li>
+			  </ul>
+			 
+			</div>    
+			
+			
+			<div class="my-msg-body">
+		   		<iframe id='my-ziliao-box'  style="border: none;" src=""></iframe>
+			</div>
+		</div>
+		
+		
+		<script>
+		</script>
+		<style>
+			.my-msg-body{
+			
+   				 height: calc(100% - 56px);
+   				 width: calc(100% + 15px);
+   				 overflow-x: hidden;
+			}
+		</style>
+		<script>
+			
+			$(function() {
+				
+				
+				//默认加载第一个
+//				$('.my-link-1').css('background-color','#009688')
+				$('#my-ziliao-box').attr('src','../child1/view.html')
+				layui.use('element', function() {
+					var element = layui.element;
+					element.init();
+
+				});
+				/*未读消息统计*/
+				$.ajax({
+					type:"post",
+					url:msgNum,
+					async:true,
+					success:function(res){
+						console.log('消息--',res)
+						if(res.code == 0){
+							if(res.record.consult>0){
+								$('.msg-show').eq(0).show();
+								$('.msg-num').eq(0).html(res.record.consult);
+								if(res.record.consult>99){
+									$('.msg-num').eq(0).html(99);
+								}
+							}
+							if(res.record.maintenanceuser>0){
+								$('.msg-show').eq(1).show();
+								$('.msg-num').eq(1).html(res.record.maintenanceuser);
+								if(res.record.maintenanceuser>99){
+									$('.msg-num').eq(1).html(99);
+								}
+							}
+							if(res.record.cooperateform>0){
+								$('.msg-show').eq(2).show();
+								$('.msg-num').eq(2).html(res.record.cooperateform);
+								if(res.record.cooperateform>99){
+									$('.msg-num').eq(2).html(99);
+								}
+							}
+						}
+					}
+				});
+				
+				//        点击对应的左侧菜单进行右部页面加载
+				$('.layui-tab-title li a').on('click', function (event) {
+//					$('.my-link-1').css('background-color','none')
+					var $this = $(this)
+					event.preventDefault()
+//					if(!$this.parent().hasClass('layui-this')){
+						var loadHtml = $this.attr('href')
+						 $('.data-cite').html($this.html())
+						$('#my-ziliao-box').attr('src',loadHtml)
+						
+//					}
+				})
+			})
+
+			
+		</script>
+		<style>
+			
+		</style>
+	</body>
+
+</html>

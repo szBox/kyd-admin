@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../../layui/css/layui.css" />
+		<script src="../../../js/jquery-2.1.0.js"></script>
+		<script src="../../../layui/layui.js"></script>
+		<script src="../../../js/public.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../../css/style.css" />
+		
+	</head>
+
+	<body class="my-body-child">
+
+		<div class="my-content"  style="padding-left: 0;">
+			<h3 class="form-title">咨询详情</h3>
+			<form class="layui-form my-form" lay-filter='myForm'  style="" action="">
+				<div class="layui-form-item">
+					<label style="width: 100px;" class="layui-form-label my-label">咨询状态：</label>
+					<div style="width: 300px;margin-left: 15px;" class="my-from-input">
+						<select class="status" required lay-verify="required" name="status" autocomplete="off">
+							<option value="">请选择</option>
+							<option value="1">未处理</option>
+							<option value="2">处理中</option>
+							<option value="3">已处理</option>
+						</select>
+					</div>
+		
+				</div>
+			
+			<div class=" my-form-text">
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">姓名：</label>
+					<span class="form-text user-name"></span>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">手机号：</label>
+					<span class="form-text user-phone"></span>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">咨询内容：</label>
+					<span class="form-text user-content"></span>
+				</div>
+				
+				
+				
+			</div>
+			<div class="action-form-btns" style=" margin: 30px 0 15px 116px">
+					<button lay-submit lay-filter="tijiao" class="layui-btn layui-btn-normal action-btn-tijiao">提交</button>
+					<button class="layui-btn layui-btn-primary action-btn-back">取消</button>
+			</div>
+			
+			</form>
+			 
+
+		</div>
+
+	</body>
+	<script>
+		
+		$(function() {
+			var initId = location.search.split('?id=')[1];
+			layui.use('element', function() {
+				var element = layui.element;
+				element.init();
+
+			});
+			layui.use('form', function() {
+
+				var form = layui.form;
+				
+//				初始赋值
+				$.ajax({
+					type:"post",
+					url:zixunSee,
+					async:true,
+					data:{
+						id:initId,
+					},
+					success:function(res){
+					
+						if( res.code == 0){
+							form.val("myForm", {
+								'status':res.recode.status
+							})
+							console.log('查看',res)
+							$('.user-name').html(res.recode.name);
+							$('.user-phone').html(res.recode.telephone);
+							$('.user-content').html(res.recode.content);
+						
+//								
+						}
+					}
+				});
+				
+				form.on('submit(tijiao)', function(form) {
+					$.ajax({
+						type: "post",
+						url: zixunStatusEdit,
+						async: true,
+						data: {
+							id:initId,
+							status:form.field.status
+						},
+						success: function(res) {
+							if(res.code == 0) {
+								$('.action-btn-tijiao').attr('disabled', true)
+								parent.parent.layer.msg('提交成功', {
+									icon: 1,
+									offset: 'tb', //右下角弹出
+									time: 1000, //2s后自动关闭
+								});
+								setTimeout(function() {
+									window.parent.$('.my-msg-nav').show();
+									window.location.href = 'view.html'
+								}, 1000)
+							}
+						}
+					});
+					return false;
+				});
+			})
+			
+			$('.action-btn-back').click(function() {
+				
+				window.parent.$('.my-msg-nav').show();
+				window.location.href = 'view.html';
+				return false;
+			})
+			var counter = 0;
+	            if (window.history && window.history.pushState) {
+                    $(window).on('popstate', function () {
+                        window.history.pushState('forward', null, '#');
+                        window.history.forward(1);
+                      	window.parent.$('.my-msg-nav').show();
+						window.location.href = 'view.html';
+                    });
+	              }
+
+	              window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+	              window.history.forward(1);
+		})
+		
+		
+	</script>
+
+</html>

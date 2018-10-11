@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>精优达--后台管理系统</title>
 	<script src="js/jquery-2.1.0.js"></script>
+	<script src="layui/layui.js"></script>
+	<script src="js/public.js"></script>
   <link rel="stylesheet" href="layui/css/layui.css">
   <link rel="stylesheet" type="text/css" href="css/style.css"/>
   <link rel="stylesheet" type="text/css" href="font/iconfont.css"/>
@@ -19,10 +21,18 @@
     <!-- 头部区域（可配合layui已有的水平导航） -->
     
     <ul class="layui-nav layui-layout-right" style="padding-right: 40px;">
-      <li class="layui-nav-item">
-        <a href="javascript:;">
+    	<li class="layui-nav-item" style="margin-right: 42px;">
+    		<p class="msg-box">
+    			<i class="iconfont icon-xiaoxi msg-show"></i>
+    			<span class='msg-num msg-show'></span>
+    		</p>
+        
+        
+      </li>
+      <li class="layui-nav-item" style="padding-left: 0;">
+        <a href="javascript:;" style="padding-left: 0;">
           <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-          测试工程师-林俊锋
+          测试工程师-林俊锋1
         </a>
         <dl class="layui-nav-child">
           <!--<dd><a href="">基本资料</a></dd>-->
@@ -109,7 +119,7 @@
   
   
 </div>
-<script src="layui/layui.js"></script>
+
 <script>
 //JavaScript代码区域
 layui.use('element', function(){
@@ -123,45 +133,30 @@ var layer = layui.layer;
 
 //默认加载第一个
 $(function(){
-	$('.my-link-1').css('background-color','#009688')
 	$('#my-content').attr('src','view/product/list1/view.html')
-	
 	/*未读消息统计*/
-//	$.ajax({
-//						type:"post",
-//						url:login,
-//						async:true,
-//						data:{
-//							account:$('.login-phone').val(),
-//							password:$('.login-pwd').val(),
-//						},
-//						success:function(res){
-//							console.log(res)
-//							if(res.code == 0){
-//								$('.login-btn').attr('disabled', true)
-//								layer.msg('登录成功', {
-//									icon: 1,
-//									offset: 'tb', //右下角弹出
-//									time: 1000, //2s后自动关闭
-//								},function(){
-//									
-//									window.location.href='index.html'
-//								});
-//								
-//							}else{
-//								layer.msg('账号或密码错误', {
-//									icon: 5,
-//									offset: 'tb', //右下角弹出
-//									time: 1000, //2s后自动关闭
-//								});
-//							}
-//						}
-//					});
-//	msgNum
+	$.ajax({
+			type:"post",
+			url:msgNum,
+			async:true,
+			success:function(res){
+				console.log('消息--',res)
+				if(res.code == 0){
+					if(res.record.total>0){
+						$('.msg-show').show();
+						$('.msg-num').html(res.record.total)
+					}
+					if(res.record.total>99){
+						$('.msg-show').show();
+						$('.msg-num').html(99)
+					}
+				}
+			}
+	});
+	
 })
 //点击对应的左侧菜单进行右部页面加载
 $('.layui-nav-child a').on('click', function (e) {
-	$('.my-link-1').css('background-color','none')
 	var $this = $(this)
 	e.preventDefault()
 //	if(!$this.parent().hasClass('layui-this')){
@@ -171,6 +166,17 @@ $('.layui-nav-child a').on('click', function (e) {
 
 //	}
 })
+
+/*消息中心*/
+$('.msg-box').on('click',function(){
+	$('.my-nav-ul1 li').removeClass('layui-nav-itemed')  //移除选中的一级模块
+	$('.layui-nav-child dd').removeClass('layui-this')  //移除选中的小模块
+	var msgHtml = 'view/msg/list1/see.html';
+	$('#my-content').attr('src',msgHtml)
+})
+
+
+
 
 //收起 -- 展开
 $('.layui-nav-item').on('click',function(){
@@ -209,6 +215,7 @@ $('.esc').on('click',function(event){
     color: #0056b3;
     text-decoration: none;
 }
+
 </style>
 </body>
 </html>

@@ -17,7 +17,7 @@ var proDocumentDel =host+'/products_bg/deleteDocument';
 var projrammeDocumentDel = host+'/solution_bg/deleteDocument';
 
 //未读消息统计
-var msgNum = host +'info_bg/count';
+var msgNum = host +'/info_bg/count';
 
 
 //产品1级目录  
@@ -234,7 +234,19 @@ var weixiuSee = host + '/info_bg/queryMaintenance';
 var weixiuStatusEdit = host +'/usr_bg/updateStatus';
 
 
+//消息中心
 
+//服务咨询
+//表格
+var zixunAllTable =host+'/info_bg/pageConsult';
+
+//维修
+//表格
+var weixiuAllTable = host+'/info_bg/pageMaintenance';
+
+//合作
+//表格
+var cooperateTable = host+'/info_bg/queryCooperate';
 
 
 

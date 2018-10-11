@@ -236,7 +236,8 @@ form.my-form-search .layui-form-item{
 /*客户资料*/
 #my-ziliao-box{
 	width: 100%;
-	padding-right: 24px;
+	/*padding-right: 24px;*/
+	padding-right: 0;
 	height: calc(100% - 3px);
 
 }
@@ -298,4 +299,70 @@ form.my-form-search .layui-form-item{
     border-radius: 5px;
     color: #fff;
     background: #1E9FFF;
+}
+
+.my-msg-body-child .my-content{
+	padding-right: 60px;
+	padding-top: 0;
+}
+.my-msg-nav{
+	margin: 0;
+	margin-top: -15px;
+}
+
+.my-msg-nav a:hover{
+	color: #1890FF;
+}
+.my-msg-nav ul .layui-this a{
+	color: #1890FF;
+}
+.my-msg-nav ul li{
+	margin-right: 30px;
+}
+.msg-show{
+	display: none;
+}
+
+.msg-box,.msg-li{
+	position: relative;
+	cursor: pointer;
+}
+.msg-box i,.msg-li i{
+	font-size: 24px;
+	margin-top: 5px;
+}
+.msg-box span,.msg-li span{
+	position: absolute;
+	top: 10px;
+	right: -15px;
+	background: red;
+	color: #fff;
+	height: 20px;
+	width: 20px;
+	text-align: center;
+	line-height: 20px;
+	border-radius: 50%;
+	font-size: 12px;
+}
+.msg-li span{
+	right: -6px;
+	top: 5px;
+}
+.isRead-p{
+	padding: 5px 0;
+	position: relative;
+}
+.isRead-p i{
+	position: absolute;
+	left: 57px;
+	top:0px;
+	background: red;
+	color: #fff;
+	height: 6px;
+	width: 6px;
+	text-align: center;
+	line-height: 6px;
+	border-radius: 50%;
+	font-size: 12px;
+	font-style: normal;
 }
