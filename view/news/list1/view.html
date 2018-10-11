@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../../layui/css/layui.css"/>
+		<script src="../../../js/jquery-2.1.0.js"></script>
+		<script src="../../../layui/layui.js"></script>
+		<script src="../../../js/public.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+	</head>
+
+	<body class="my-body">
+		
+		<div class="my-breadcrumb">
+			<span class="layui-breadcrumb">
+			  <a>新闻与招聘</a>
+			  <a><cite>新闻管理</cite></a>
+			</span>
+		</div>
+		<div class="my-content">
+			<form class="layui-form my-form-search"  style="" action="">
+
+				<div class="layui-form-item" style="float: left;">
+					<label style="" class="layui-form-label">新闻类型：</label>
+					<div style="width: 240px;margin-left: 72px;" class="layui-input-block">
+						<select  class="pro1" lay-filter="pro1" name="pro1">
+							<option value="0">请选择</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item" style="float: right;">
+					<input type="text" name='names'  placeholder="请输入新闻标题" autocomplete="off" class="my-search layui-input">
+				</div>
+			</form>
+			<div class="action-search-btns">
+
+				<button class="layui-btn layui-btn-normal action-btn-add"><i class="layui-icon layui-icon-add-1"></i>添加</button>
+				<button id="deleteMuch" class="layui-btn layui-btn-danger action-btn-deletes"><i class="layui-icon layui-icon-close"></i>批量删除</button>
+			</div>
+			
+			<table id="test" class="layui-hide" lay-filter="demoEvent"></table>
+			
+		</div>
+
+		
+		<script>
+		</script>
+		<style>
+
+		</style>
+		<script>
+			var table = null;
+			var resdata = null; //当前页码 的 数据条数;
+			var current = null //当前页数
+			var level1Id = null;
+			$(function() {
+				Sel1(5);
+				layui.use('element', function() {
+					var element = layui.element;
+					element.init();
+
+				});
+				layui.use('form', function() {
+					var form = layui.form;
+					form.render();
+					form.on('select(pro1)', function(data){
+						 level1Id = data.value;
+						 $(".my-search").val('')
+					    /*获取 产品类型 列表*/
+						table.reload('idTest', {page: { curr: 1 } ,where:{type:data.value,name:''}})
+					})
+					/*监听 输入 改变*/
+					$(".my-search").keypress(function (e) {
+						var names = $(this).val();
+		                if (e.which == 13) {
+		                    /*获取 产品 表格*/
+							table.reload('idTest', {page: { curr: 1 } ,where:{type:level1Id,name:names}})
+		                }
+					});
+				});
+				var Thead = [[
+					{type:'checkbox'},
+					{title:'ID',field:'id',unresize:true,},
+					{title:'新闻标题',field:'title',unresize:true},
+					{title:'新闻类型',field:'type_name',unresize:true},
+					{title:'新闻来源',field:'resource',unresize:true},
+					{title:'发布时间',field:'publish_time',unresize:true},
+					{title:'操作',field:'pAction',unresize:true,templet: function(d){
+        return '<button data-id="'+d.id+'" class="layui-btn layui-btn-sm layui-btn-normal action-btn-edit">编辑</button>'+
+        		'<button data-id="'+d.id+'"  class="layui-btn layui-btn-sm layui-btn-danger action-btn-del">删除</button>'
+      }}
+					
+				]]
+			
+				layui.use('table', function(){
+				  table = layui.table;
+				  
+				  table.render({
+				  	id:'idTest',
+				  	cols: Thead,
+				  	skin:'line',
+				    elem: '#test',
+				    
+				  	text: {
+					  none: '暂无相关数据' //默认：无数据。注：该属性为 layui 2.2.5 开始新增
+					},
+					request: {
+						pageName: 'pageIndex', //页码的参数名称，默认：page
+						limitName: 'pageSize' //每页数据量的参数名，默认：limit
+					},
+					cellMinWidth: 80,//全局定义常规单元格的最小宽度，layui 2.2.1 新增
+					page : {
+				        layout: ['count', 'prev', 'page', 'next', 'skip'],
+				        theme: '#1E9FFF',
+				   },
+				   	limit:10,
+				   	limits: [2,10,20,50,100],
+				    url:newsTable,
+				    where: {name:'',type:''}, //如果无需传递额外参数，可不加该参数,pageIndex:1,pageSize:2
+				    method: 'post', //如果无需自定义HTTP类型，可不加该参数
+				    /*request: {} //如果无需自定义请求参数，可不加该参数
+				    response: {} //如果无需自定义数据响应名称，可不加该参数*/
+				   	parseData: function(res){ //res 即为原始返回的数据
+				   		/*保存 删除- 分页的数据*/
+				   		console.log(res);
+				   		resdata = res.records;
+				   		current = res.pager.pageIndex;
+					    return {
+					      "code": res.code, //解析接口状态
+					      "msg": res.message, //解析提示文本
+					      "count": res.pager.recordSize, //解析数据长度
+					      "data":  res.records //解析数据列表
+					    };
+					},
+				  	/*done:function(res){
+				  		console.log(res)
+				  	},*/
+				    
+				  });
+				});
+				$("#deleteMuch").click(function(){
+					var checkStatus = table.checkStatus('idTest'); //test即为基础参数id对应的值
+					 var ids = "";
+ 					for(var i = 0;i<checkStatus.data.length;i++){
+ 						ids+=","+checkStatus.data[i].id;
+ 					}
+ 					ids = ids.substring(1);
+ 					if(ids.length<1){
+ 						parent.layer.msg('请至少选择一项', {
+						 	 icon: 2,
+						 	 offset: 'tb', //右下角弹出
+						     time: 1000, //2s后自动关闭
+			//			    skin: 'layer-ext-moon'
+						 });
+ 					}else{
+ 						parent.layer.confirm('你确定删除吗？', {
+						  btn: ['确定','取消'] //按钮
+						}, function(index){
+							del(ids,index)
+						}, function(){
+						  	console.log('取消')
+						});
+ 					}
+ 				})
+				
+				$('.action-btn-add').click(function(){
+					window.location.href='add.html'
+				})
+				$('body').on('click','.action-btn-edit',function(){
+					console.log($(this).attr('data-id'))
+					window.location.href='edit.html?id='+$(this).attr('data-id');
+				})
+				.on('click','.action-btn-del',function(){
+					var id = $(this).attr('data-id');
+					parent.layer.confirm('你确定删除吗？', {
+					  btn: ['确定','取消'] //按钮
+					}, function(index){
+						del(id,index)
+					}, function(){
+					  	console.log('取消')
+					});
+				})
+				
+				function del(id,index){
+					$.ajax({
+							type:"post",
+							url:newsDel,
+							async:true,
+							data:{
+								id:id
+							},
+							success:function(res){
+								console.log(res)
+								if(res.code == 0){
+									parent.layer.close(index)
+								  	parent.layer.msg('删除成功', {
+									 	 icon: 1,
+									 	 offset: 'tb', //右下角弹出
+									     time: 1500, //2s后自动关闭
+						//			    skin: 'layer-ext-moon'
+									});
+									if(resdata.length ===1 && current>1){
+										var pageIndex = current--;
+										table.reload('idTest', {page: { curr: pageIndex }});
+									}
+									table.reload('idTest');
+								}
+							}
+						});
+				}
+			})
+			
+		</script>
+		<style>
+			
+		</style>
+	</body>
+
+</html>
+
+
+
+
+

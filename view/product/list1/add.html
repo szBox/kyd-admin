@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../../layui/css/layui.css" />
+		<script src="../../../js/jquery-2.1.0.js"></script>
+		<script src="../../../layui/layui.js"></script>
+		<script type="text/javascript" src="http://gosspublic.alicdn.com/aliyun-oss-sdk.min.js "></script>
+		<script src="../../../js/oss.js"></script>
+		<script src='../../../js/wangEditor.min.js'></script>
+		<script src="../../../js/public.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../../css/style.css" />
+	</head>
+
+	<body class="my-body">
+
+		<div class="my-breadcrumb">
+			<span class="layui-breadcrumb">
+		  <a>产品维护</a>
+		  <a>产品管理</a>
+		  <a><cite>产品添加</cite></a>
+		</span>
+		</div>
+		<div class="my-content">
+			<h3 class="form-title">产品添加</h3>
+
+			<form class="layui-form my-form" style="" action="">
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">产品类别：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<select  class="pro1" lay-filter="pro1" name="pro1">
+							<option value="">请选择</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">产品类型：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<select  class="pro2" lay-filter="pro2" name="pro2" required lay-verify="required">
+							<option value="">请选择</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">产品型号：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<input type="text" name="model" required lay-verify="required" placeholder="请输入产品型号" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">产品名称：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<input type="text" name="name" required lay-verify="required" placeholder="请输入产品名称" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">产别功能：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<input type="text" name="synopsis" required lay-verify="required" placeholder="请输入产品功能" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">产品特征1：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<input type="text" name="dom2" required lay-verify="required" placeholder="请输入产品特征" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">产品特征2：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<input type="text" name="dom3" required lay-verify="required" placeholder="请输入产品特征" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">上传产品图片：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<button type="button" class="file-btn layui-btn layui-btn-normal">
+						  <i class="layui-icon">&#xe67c;</i>点击上传
+						  <input type="file" class="file-img" accept=".png,.jpg,.jpeg" />
+						  <input type="hidden" class="file-data"  value="" name="icon" required lay-verify="fileImg" />
+						</button>
+						<div class="upload-img-div">
+							<i class="layui-icon layui-icon-close-fill upload-img-close" data-close=''></i>
+							<img class="layui-upload-img" src=""  id="file-img-show">
+						</div>
+						<p class="file-tips">支持上传png、jpg.格式</p>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">上传产品说明书<span>(可选)</span>：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<button type="button" class="file-btn layui-btn layui-btn-normal">
+						  <i class="layui-icon">&#xe67c;</i>点击上传
+						  <input type="file" accept=".xls,.doc,.pdf,.docx" class="file-psd"/>
+						  <input type="hidden" class="psd-data"  value="" name="psd1" />
+						</button>
+						<div class="upload-psd-div">
+							<span  class="layui-icon layui-icon-file"></span>
+							<i class="layui-icon layui-icon-close-fill  upload-psd-close" data-close=''></i>
+							<p class="upload-psd-p ellipsis"></p>
+						</div>
+						<p class="file-tips">上传doc、docx、pdf文件</p>
+						
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">上传产品选型表<span>(可选)</span>：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<button type="button" class="file-btn layui-btn layui-btn-normal" id="test2">
+						  <i class="layui-icon">&#xe67c;</i>点击上传
+						  <input type="file"  accept=".xls,.doc,.pdf,.docx" class="file-psd" />
+						  <input type="hidden" class="psd-data"  value="" name="psd2" />
+						</button>
+						<div class="upload-psd-div">
+							<span  class="layui-icon layui-icon-file"></span>
+							<i class="layui-icon layui-icon-close-fill  upload-psd-close" data-close=''></i>
+							<p class="upload-psd-p ellipsis"></p>
+						</div>
+						<p class="file-tips">上传doc、docx、pdf文件</p>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">产品概述：</label>
+					<div style="width: 500px;" class="my-from-input">
+						<div id="dom4" class="toolbar"></div>
+						<textarea name="dom4"value='' required lay-verify="dom4Require" placeholder="请输入产品概述" class="layui-textarea my-textarea"></textarea>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">产品特点：</label>
+					<div  style="width: 500px;" class="my-from-input">
+						<div id="dom5" class="toolbar"></div>
+						<textarea name="dom5" value=''  required lay-verify="dom5Require" placeholder="请输入产品特点" class="layui-textarea my-textarea"></textarea>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">产品参数：</label>
+					<div style="width: 500px;" class="my-from-input">
+						<div id="dom6" class="toolbar"></div>
+						<textarea name="dom6"value=''  required lay-verify="dom6Require" placeholder="请输入产品参数" class="layui-textarea my-textarea"></textarea>
+					</div>
+				</div>
+				<div class="action-form-btns">
+					<button lay-submit lay-filter="tijiao" class="layui-btn layui-btn-normal action-btn-tijiao">提交</button>
+					<button class="layui-btn layui-btn-primary action-btn-back">取消</button>
+				</div>
+			</form>
+		
+		
+		</div>
+		
+	</body>
+	<script>
+		$(function() {
+			var form = null;
+			Sel1(1) //产品1级目录 下拉
+			var E = window.wangEditor
+	        var editor4 = new E('#dom4');
+	        var editor5 = new E('#dom5');
+	        var editor6 = new E('#dom6');
+	        // 自定义菜单配置
+		    editor4.customConfig.menus = [
+		        'head',
+		        'bold',
+		        'fontSize',
+		        'undo',
+		    ]
+		    editor5.customConfig.menus = [
+		        'head',
+		        'bold',
+		        'fontSize',
+		        'undo',
+		    ]
+		    editor6.customConfig.menus = [
+		        'head',
+		        'bold',
+		        'fontSize',
+		        'undo',
+		    ]
+	        
+	       
+	        editor4.customConfig.onchange= function (html) {
+            // 监控变化，同步更新到 textarea
+            	 $('[name="dom4"]').html(html);
+        	}
+	        editor5.customConfig.onchange= function (html) {
+            // 监控变化，同步更新到 textarea
+            	 $('[name="dom5"]').html(html);
+        	}
+	        editor6.customConfig.onchange= function (html) {
+            // 监控变化，同步更新到 textarea
+            	 $('[name="dom6"]').html(html);
+        	}
+	        editor4.create();
+	 		editor5.create();
+	        editor6.create();
+			
+			
+			layui.use('element', function() {
+				var element = layui.element;
+				element.init();
+
+			});
+			layui.use('form', function() {
+				var form = layui.form;
+				form.render();
+				//自定义验证规则
+				 form.verify({
+				    fileImg: function(value){
+				      if(value.length < 1){
+				        return '请上传图片';
+				      }
+				    },
+				    dom4Require: function(value, item){
+				    	console.log(item)
+				    	console.log('概述的value',value);
+				      if(value.length < 1 || value == '<p><br></p>'){
+				        return '请填写产品概述';
+				      }
+				    },
+				    dom5Require: function(value){
+				      if(value.length < 1 || value == '<p><br></p>'){
+				        return '请填写产品特点';
+				      }
+				    },
+				    dom6Require: function(value){
+				      if(value.length < 1 || value == '<p><br></p>'){
+				        return '请填写产品功能';
+				      }
+				    }
+				  });
+				/*监听 产品类别 改变*/
+				form.on('select(pro1)', function(data){
+				    console.log(data.value)
+				    /*获取 产品类型 列表*/
+				    Sel2(1,data.value);
+					
+				})
+				form.on('submit(tijiao)', function(form) {
+					var document1Name = $('[name="psd1"]').parent().next('.upload-psd-div').find('.upload-psd-p').html();
+					var document2Name = $('[name="psd2"]').parent().next('.upload-psd-div').find('.upload-psd-p').html();
+					$.ajax({
+						type: "post",
+						url: productAdd,
+						async: true,
+						data: {
+							type2Id:form.field.pro2,	//2级目录
+							model:form.field.model,		//编号
+							name: form.field.name,		//名称
+							synopsis:form.field.synopsis, 		//功能描述
+							dom1:form.field.synopsis, 		//功能描述
+							dom2:form.field.dom2, 		//特征1
+							dom3:form.field.dom3,		//特征2
+							icon:form.field.icon,		//图片
+							document1:form.field.psd1,	//文档1
+							document1Name:document1Name,
+							document2:form.field.psd2,	//文档2
+							document2Name:document2Name,
+							dom4:form.field.dom4,		//概述
+							dom5:form.field.dom5,		//特点	
+							dom6:form.field.dom6,		//参数
+						},
+						success: function(res) {
+							if(res.code == 0) {
+								$('.action-btn-tijiao').attr('disabled', true)
+								parent.layer.msg('提交成功', {
+									icon: 1,
+									offset: 'tb', //右下角弹出
+									time: 1000, //2s后自动关闭
+								});
+								setTimeout(function() {
+									window.location.href = 'view.html'
+								}, 1000)
+							}
+						}
+					});
+					return false;
+				});
+			});
+			
+			$(".file-img").change(function(){
+				if($('#file-img-show').attr('src').length<1){
+					var imgName=new Date().getTime()+"-"+$(this)[0].files[0].name;
+			      	client.multipartUpload("myImg/"+imgName, this.files[0]).then(function (result) {
+			      		if(result.res.requestUrls[0].indexOf('?uploadId')){
+			      			$('#file-img-show').attr('src',result.res.requestUrls[0].split('?uploadId')[0])//图片展示
+			      			$('.file-data').val(result.res.requestUrls[0].split('?uploadId')[0])
+			      		}else{
+			      			$('#file-img-show').attr('src',result.res.requestUrls[0]) //图片展示
+			      			$('.file-data').val(result.res.requestUrls[0]); //图片 上传的数据
+			      		}
+			      		
+			      		$('.upload-img-div').show(); //图片容器
+			      		$('.upload-img-close').attr('data-close',result.name)  //删除 需要的文件名
+			            console.log('上传图片',result);
+			        }).catch(function (err) {
+			            console.log(err);
+			        });
+				}else{
+					parent.layer.msg('最多上传一张', {
+						icon: 2,
+						offset: 'tb', //右下角弹出
+						time: 1000, //2s后自动关闭
+					});
+				}
+		      	
+		    });
+		    //删除图片
+		    $(".upload-img-close").click(function(){
+		    	$('.file-data').val('');
+				$('#file-img-show').attr('src','')
+				$('.upload-img-div').hide();
+			
+			    $.ajax({
+					type: "post",
+					url: ossDel,
+					async: true,
+					data: {
+						name:$(this).attr('data-close')
+					},
+					success: function(res) {
+						$(".file-img").val('')
+					}
+				});
+		    });
+		    $('.file-psd').change(function(){
+		    	if($(this).next('.psd-data').val().length<1){
+			    	var $this = $(this);
+			    	var psdName=$(this)[0].files[0].name;
+			    	client.multipartUpload("myPdf/"+psdName, this.files[0]).then(function (result) {
+			    		 	console.log('上传文件',result);
+				      		$this.parent().next('.upload-psd-div').show() //装文件 容器
+				      		$this.next('.psd-data').val(result.res.requestUrls[0])  //需要上传 的数据
+				            $this.parent().next('.upload-psd-div').find('.upload-psd-p').html(psdName);
+				            $this.parent().next('.upload-psd-div').find('.upload-psd-close').attr('data-close',result.name);
+				        }).catch(function (err) {
+				            console.log(err);
+				        });
+			    }else{
+					parent.layer.msg('最多上传一张', {
+						icon: 2,
+						offset: 'tb', //右下角弹出
+						time: 1000, //2s后自动关闭
+					});
+				}    
+		    })
+		    
+		    //删除文件
+			$('.upload-psd-close').click(function(){
+				$(this).parent().prev().find('.psd-data').val('');
+//				$(this).next('.upload-psd-p').html('')
+				$(this).parent('.upload-psd-div').hide();
+				var $this = $(this);
+			    $.ajax({
+					type: "post",
+					url: ossDel,
+					async: true,
+					data: {
+						name:$(this).attr('data-close')
+					},
+					success: function(res) {
+						$this.parent().prev().find('.file-psd').val('')
+					}
+				});
+			})
+		
+			$('.action-btn-back').click(function() {
+				
+				window.location.href = 'view.html';
+				return false;
+			})
+
+		})
+	</script>
+
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../../layui/css/layui.css" />
+		<script src="../../../js/jquery-2.1.0.js"></script>
+		<script src="../../../layui/layui.js"></script>
+		<script type="text/javascript" src="http://gosspublic.alicdn.com/aliyun-oss-sdk.min.js "></script>
+		<script src="../../../js/oss.js"></script>
+		<script src='../../../js/wangEditor.min.js'></script>
+		<script src="../../../js/public.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../../css/style.css" />
+	</head>
+
+	<body class="my-body">
+
+		<div class="my-breadcrumb">
+			<span class="layui-breadcrumb">
+		  <a>方案维护</a>
+		  <a>方案管理</a>
+		  <a><cite>方案类型添加</cite></a>
+		</span>
+		</div>
+		<div class="my-content">
+			<h3 class="form-title">方案类型添加</h3>
+
+			<form class="layui-form my-form" style="" action="">
+				
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">方案类型：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<input type="text" name="name" required lay-verify="required" placeholder="请输入方案类型" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">方案功能：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<input type="text" name="dom1" required lay-verify="required" placeholder="请输入方案功能" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">方案概述：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<textarea name="dom2" value='' required  lay-verify="required" placeholder="请输入方案概述" class="layui-textarea"></textarea>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">上传方案封面图片：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<button type="button" class="file-btn layui-btn layui-btn-normal" >
+						  <i class="layui-icon">&#xe67c;</i>点击上传
+						  <input type="file" class="file-img" accept=".png,.jpg,.jpeg" />
+						  <input type="hidden" class="file-data"  value="" name="img4" required lay-verify="fileimg4" />
+						</button>
+						<div class="upload-img-div">
+							<i style="left: 290px;" class="layui-icon layui-icon-close-fill upload-img-close" data-close=''></i>
+							<img style="width: 100%;" class="layui-upload-img file-img-show" src="">
+						</div>
+						<p class="file-tips">支持上传png、jpg.格式</p>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">上传方案图标：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<button type="button" class="file-btn layui-btn layui-btn-normal">
+						  <i class="layui-icon">&#xe67c;</i>点击上传
+						  <input type="file" class="file-img" accept=".png,.jpg,.jpeg" />
+						  <input type="hidden" class="file-data"  value="" name="icon" required lay-verify="fileIcon" />
+						</button>
+						<div class="upload-img-div">
+							<i class="layui-icon layui-icon-close-fill upload-img-close" data-close=''></i>
+							<img class="layui-upload-img file-img-show" src="" >
+						</div>
+						<p class="file-tips">支持上传png、jpg.格式</p>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">方案优势1-标题：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<input type="text" name="dom4" required lay-verify="required" placeholder="请输入方案优势标题" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">方案优势1-概述：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<textarea name="dom5" value='' required lay-verify="required" placeholder="请输入方案优势概述" class="layui-textarea"></textarea>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">上传图片1：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<button type="button" class="file-btn layui-btn layui-btn-normal">
+						  <i class="layui-icon">&#xe67c;</i>点击上传
+						  <input type="file" class="file-img" accept=".png,.jpg,.jpeg" />
+						  <input type="hidden" class="file-data"  value="" name="img1" required lay-verify="fileImg1" />
+						</button>
+						<div class="upload-img-div">
+							<i class="layui-icon layui-icon-close-fill upload-img-close" data-close=''></i>
+							<img class="layui-upload-img file-img-show" src="">
+						</div>
+						<p class="file-tips">支持上传png、jpg.格式</p>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">方案优势2-标题：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<input type="text" name="dom6" required lay-verify="required" placeholder="请输入方案优势标题" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">方案优势2-概述：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<textarea name="dom7" value='' required lay-verify="required" placeholder="请输入方案优势概述" class="layui-textarea"></textarea>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">上传图片2：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<button type="button" class="file-btn layui-btn layui-btn-normal">
+						  <i class="layui-icon">&#xe67c;</i>点击上传
+						  <input type="file" class="file-img" accept=".png,.jpg,.jpeg" />
+						  <input type="hidden" class="file-data"  value="" name="img2" required lay-verify="fileImg2" />
+						</button>
+						<div class="upload-img-div">
+							<i class="layui-icon layui-icon-close-fill upload-img-close" data-close=''></i>
+							<img class="layui-upload-img file-img-show" src="">
+						</div>
+						<p class="file-tips">支持上传png、jpg.格式</p>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">方案优势3-标题：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<input type="text" name="dom8" required lay-verify="required" placeholder="请输入方案优势标题" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">方案优势3-概述：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<textarea name="dom9" value='' required lay-verify="required" placeholder="请输入方案优势概述" class="layui-textarea"></textarea>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">上传图片3：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<button type="button" class="file-btn layui-btn layui-btn-normal">
+						  <i class="layui-icon">&#xe67c;</i>点击上传
+						  <input type="file" class="file-img" accept=".png,.jpg,.jpeg" />
+						  <input type="hidden" class="file-data"  value="" name="img3" required lay-verify="fileImg3" />
+						</button>
+						<div class="upload-img-div">
+							<i class="layui-icon layui-icon-close-fill upload-img-close" data-close=''></i>
+							<img class="layui-upload-img file-img-show" src="">
+						</div>
+						<p class="file-tips">支持上传png、jpg.格式</p>
+					</div>
+				</div>
+				
+				
+				<div class="action-form-btns">
+					<button lay-submit lay-filter="tijiao" class="layui-btn layui-btn-normal action-btn-tijiao">提交</button>
+					<button class="layui-btn layui-btn-primary action-btn-back">取消</button>
+				</div>
+			</form>
+		
+		
+		</div>
+		
+	</body>
+	<script>
+		$(function() {
+			var form = null;
+
+			layui.use('element', function() {
+				var element = layui.element;
+				element.init();
+
+			});
+			layui.use('form', function() {
+				var form = layui.form;
+				form.render();
+				//自定义验证规则
+				 form.verify({
+				    fileimg4: function(value){
+				      if(value.length < 1){
+				        return '请上传封面图片';
+				      }
+				    },
+				    fileIcon:function(value){
+				      if(value.length < 1){
+				        return '请上传方案图标';
+				      }
+				    },
+				     fileImg1: function(value){
+				      if(value.length < 1){
+				        return '请上传方案优势图片-1';
+				      }
+				    },
+				     fileImg2: function(value){
+				      if(value.length < 1){
+				        return '请上传方案优势图片-2';
+				      }
+				    },
+				     fileImg3: function(value){
+				      if(value.length < 1){
+				        return '请上传方案优势图片-3';
+				      }
+				    },
+				 });
+				form.on('submit(tijiao)', function(form) {
+					$.ajax({
+						type: "post",
+						url: programmeTypeAdd,
+						async: true,
+						data: {
+							name: form.field.name,		//方案类型
+							dom1:form.field.dom1, 		//方案 功能描述
+							dom2:form.field.dom2, 		//概述 
+						
+							dom4:form.field.dom4,		//优势1  标题1 
+							dom5:form.field.dom5,		//优势1  概述1 
+							img1:form.field.img1,		//优势1  图标1 
+							
+							dom6:form.field.dom6,		//优势2  标题2 
+							dom7:form.field.dom7,		//优势2  概述2 
+							img2:form.field.img2,		//优势2  图标2 							
+							
+							dom8:form.field.dom8,		//优势3  标题3 
+							dom9:form.field.dom9,		//优势3  概述3 
+							img3:form.field.img3,		//优势3  图标3 
+							
+							icon:form.field.icon,		// 小图标
+							img4:form.field.img4        // 大封面
+							
+						},
+						success: function(res) {
+							if(res.code == 0) {
+								$('.action-btn-tijiao').attr('disabled', true)
+								parent.layer.msg('提交成功', {
+									icon: 1,
+									offset: 'tb', //右下角弹出
+									time: 1000, //2s后自动关闭
+								});
+								setTimeout(function() {
+									window.location.href = 'view.html'
+								}, 1000)
+							}
+						}
+					});
+					return false;
+				});
+			});
+			
+			$(".file-img").change(function(){
+				var $this = $(this);
+				if($this.parent().next().find('.file-img-show').attr('src').length<1){
+					var imgName=new Date().getTime()+"-"+$(this)[0].files[0].name;
+			      	client.multipartUpload("myImg/"+imgName, this.files[0]).then(function (result) {
+			      		if(result.res.requestUrls[0].indexOf('?uploadId')){
+			      			$this.parent().next().find('.file-img-show').attr('src',result.res.requestUrls[0].split('?uploadId')[0])//图片展示
+			      			$this.next('.file-data').val(result.res.requestUrls[0].split('?uploadId')[0])
+			      		}else{
+			      			$this.parent().next().find('.file-img-show').attr('src',result.res.requestUrls[0]) //图片展示
+			      			$this.next('.file-data').val(result.res.requestUrls[0]); //图片 上传的数据
+			      		}
+			      		$this.parent().next('.upload-img-div').show(); //图片容器
+			      		$this.parent().next('.upload-img-div').find('.upload-img-close').attr('data-close',result.name)  //删除 需要的文件名
+			            console.log('上传图片',result);
+			        }).catch(function (err) {
+			            console.log(err);
+			        });
+				}else{
+					parent.layer.msg('最多上传一张', {
+						icon: 2,
+						offset: 'tb', //右下角弹出
+						time: 1000, //2s后自动关闭
+					});
+				}
+		      	
+		    });
+		    //删除图片
+		    $(".upload-img-close").click(function(){
+		    	console.log('222222222')
+		    	var $this = $(this);
+		    	$this.parent().prev().find('.file-data').val('');
+				$this.next('.file-img-show').attr('src','');
+				$this.parent('.upload-img-div').hide();
+
+			    $.ajax({
+					type: "post",
+					url: ossDel,
+					async: true,
+					data: {
+						name:$this.attr('data-close')
+					},
+					success: function(res) {
+						$this.parent().prev().find('.file-img').val('');
+//						$(".file-img").val('')
+					}
+				});
+		    });
+		 
+		
+			$('.action-btn-back').click(function() {
+				
+				window.location.href = 'view.html';
+				return false;
+			})
+
+		})
+	</script>
+
+</html>

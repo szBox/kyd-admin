@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../../layui/css/layui.css" />
+		<script src="../../../js/jquery-2.1.0.js"></script>
+		<script src="../../../layui/layui.js"></script>
+		<script type="text/javascript" src="http://gosspublic.alicdn.com/aliyun-oss-sdk.min.js "></script>
+		<script src="../../../js/public.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../../css/eleTree.css"/>
+		<link rel="stylesheet" type="text/css" href="../../../css/style.css" />
+		
+	</head>
+
+	<body class="my-body">
+
+		<div class="my-breadcrumb">
+			<span class="layui-breadcrumb">
+		  <a>服务与支持</a>
+		  <a>订单管理</a>
+		  <a><cite>订单添加</cite></a>
+		</span>
+		</div>
+		<div class="my-content">
+			<h3 class="form-title">订单添加</h3>
+
+			<form class="layui-form my-form" style="" action="">
+				
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">客户名称：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<input type="text" name="user" required lay-verify="required"  placeholder="请输入客户名称" autocomplete="off" class="layui-input my-tree-input">
+					</div>
+				</div>
+				<div class="layui-form-item my-textarea-div">
+					<label style="" class="layui-form-label my-label">订单描述：</label>
+					<div style="width: 300px;" class="my-from-input">
+						 <textarea name="synopsis" required lay-verify="required" placeholder="请输入订单描述" class="layui-input "></textarea>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">订单编号：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<input type="text" name="internalCode" required lay-verify="required"  placeholder="请输入订单编号" autocomplete="off" class="layui-input my-tree-input">
+
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">物流单号：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<input type="text" name="logisticsCode" required lay-verify="required"  placeholder="请输入物流单号" autocomplete="off" class="layui-input my-tree-input">
+				
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">配送方式：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<select class="pro1" required lay-verify="required" name="shipperCode" autocomplete="off">
+							<option value="">请选择</option>
+							<option value="SF">顺丰快递</option>
+							<option value="ZTO">中通快递</option>
+							
+						</select>
+					</div>
+	
+				</div>
+				<div class="action-form-btns">
+					<button lay-submit lay-filter="tijiao" class="layui-btn layui-btn-normal action-btn-tijiao">提交</button>
+					<button class="layui-btn layui-btn-primary action-btn-back">取消</button>
+				</div>
+			</form>
+			 
+
+		</div>
+
+	</body>
+	<script>
+
+		
+		$(function() {
+			layui.use('element', function() {
+				var element = layui.element;
+				element.init();
+
+			});
+			
+			layui.use('form', function() {
+
+				var form = layui.form;
+			
+				form.on('submit(tijiao)', function(form) {
+					$.ajax({
+						type: "post",
+						url: orderAdd,
+						async: true,
+						data: {
+							user:form.field.user,
+							synopsis:form.field.synopsis,
+							internalCode:form.field.internalCode,
+							logisticsCode:form.field.logisticsCode,
+							shipperCode:form.field.shipperCode,
+						},
+						success: function(res) {
+							if(res.code == 0) {
+								$('.action-btn-tijiao').attr('disabled', true)
+								parent.layer.msg('提交成功', {
+									icon: 1,
+									offset: 'tb', //右下角弹出
+									time: 1000, //2s后自动关闭
+								});
+								setTimeout(function() {
+									window.location.href = 'view.html'
+								}, 1000)
+							}
+						}
+					});
+					return false;
+				});
+		
+			})
+			
+			
+			$('.action-btn-back').click(function() {
+				window.location.href = 'view.html';
+				return false;
+			})
+
+		})
+		
+		
+	</script>
+
+</html>

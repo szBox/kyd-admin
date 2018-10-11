@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../../layui/css/layui.css" />
+		<script src="../../../js/jquery-2.1.0.js"></script>
+		<script src="../../../layui/layui.js"></script>
+		<script src='../../../js/wangEditor.min.js'></script>
+		<script type="text/javascript" src="http://gosspublic.alicdn.com/aliyun-oss-sdk.min.js "></script>
+		<script src="../../../js/oss.js"></script>
+		<script src="../../../js/public.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../../css/style.css" />
+		
+	</head>
+
+	<body class="my-body">
+
+		<div class="my-breadcrumb">
+			<span class="layui-breadcrumb">
+		  <a>服务与支持</a>
+		  <a>分享管理</a>
+		  <a><cite>分享添加</cite></a>
+		</span>
+		</div>
+		<div class="my-content">
+			<h3 class="form-title">分享添加</h3>
+
+			<form class="layui-form my-form" style="" action="">
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">文章类型：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<select class="pro1" required lay-verify="required" name="pro1" autocomplete="off">
+							<option value="">请选择</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">文章标题：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<input type="text" name="title" required lay-verify="required"  placeholder="请输入文章标题" autocomplete="off" class="layui-input my-tree-input">
+					</div>
+				</div>
+				<div class="layui-form-item my-textarea-div">
+					<label style="" class="layui-form-label my-label">文章概述：</label>
+					<div style="width: 300px;" class="my-from-input">
+						 <textarea name="summary" required lay-verify="required" placeholder="请输入文章概述" class="layui-input "></textarea>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">文章来源：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<input type="text" name="resource" required lay-verify="required"  placeholder="请输入文章来源" autocomplete="off" class="layui-input my-tree-input">
+
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">上传文章配图：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<button type="button" class="file-btn layui-btn layui-btn-normal">
+						  <i class="layui-icon">&#xe67c;</i>点击上传
+						  <input type="file" class="file-img" accept=".png,.jpg,.jpeg" />
+						  <input type="hidden" class="file-data"  value="" name="icon" required lay-verify="fileIcon" />
+						 
+						</button>
+						<div class="upload-img-div">
+							<i class="layui-icon layui-icon-close-fill upload-img-close" data-close=''></i>
+							<img  class="layui-upload-img file-img-show" src="">
+						</div>
+						<p class="file-tips">支持上传png、jpg.格式</p>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">文章内容：</label>
+					<div style="width: 500px;" class="my-from-input">
+						<div id="dom4" class="toolbar"></div>
+						<textarea name="content" value='' required lay-verify="dom4Require" placeholder="请输入文章内容" class="layui-textarea my-textarea"></textarea>
+					</div>
+				</div>
+				<div class="action-form-btns">
+					<button lay-submit lay-filter="tijiao" class="layui-btn layui-btn-normal action-btn-tijiao">提交</button>
+					<button class="layui-btn layui-btn-primary action-btn-back">取消</button>
+				</div>
+			</form>
+			 
+
+		</div>
+
+	</body>
+	<script>
+	
+		$(function() {
+			Sel1(4) //目录 下拉
+			
+			var E = window.wangEditor
+			var editor4 = new E('#dom4');
+	
+			// 自定义菜单配置
+	
+		
+			 editor4.customConfig.menus = [
+		        'head',
+		        'bold',
+		        'fontSize',
+		        'image',
+		        'undo',
+		    ]
+			//这里注意，下面的/news/upload是我的路由部分，主要是上传图片的后端代码
+			editor4.customConfig.uploadImgServer = '/myImg'; // 上传图片到服务器
+			
+			//定义上传的filename，即上传图片的名称
+			editor4.customConfig.uploadFileName = 'images';
+			editor4.customConfig.showLinkImg = false;
+			//开启wangEditor的错误提示，有利于我们更快的找到出错的地方
+			editor4.customConfig.debug = true;
+//			editor4.customConfig.customUploadInit = function(file){
+//				console.log(file,'sh')
+//			};
+			editor4.customConfig.pasteFilterStyle = false
+                 // 将图片大小限制为10M
+			editor4.customConfig.uploadImgMaxSize = 10 * 1024 * 1024;
+			
+            editor4.customConfig.customUploadImg = function (files, insert) {
+            	console.log(files,'文件列表')
+            	var imgName=files[0].name;
+		      	client.multipartUpload("myImg/"+new Date().getTime()+"-"+imgName, files[0]).then(function (result) {
+		      		if(result.res.requestUrls[0].indexOf('?uploadId')){
+		      			
+		      			insert(result.res.requestUrls[0].split('?uploadId')[0])
+		      		}else{
+		      			
+		      			insert(result.res.requestUrls[0]); //图片 上传的数据
+		      		}
+		      		
+		            console.log('上传图片',result);
+		        }).catch(function (err) {
+		            console.log(err);
+		        });
+            	
+			    // files 是 input 中选中的文件列表
+			    // insert 是获取图片 url 后，插入到编辑器的方法
+			
+			    // 上传代码返回结果之后，将图片插入到编辑器中
+			  
+			}
+           	editor4.customConfig.onchange = function(html) {
+				// 监控变化，同步更新到 textarea
+				$('[name="content"]').html(html);
+			}
+           	editor4.create();
+			
+			layui.use('element', function() {
+				var element = layui.element;
+				element.init();
+
+			});
+			layui.use('form', function() {
+
+				var form = layui.form;
+				//自定义验证规则
+				form.verify({
+					fileIcon: function(value) {
+						if(value.length < 1) {
+							return '请上传文章配图';
+						}
+					},
+					
+					dom4Require: function(value) {
+						if(value.length < 1 || value == '<p><br></p>') {
+							return '请填写文章内容';
+						}
+					},
+					
+				});
+				form.on('submit(tijiao)', function(form) {
+					$.ajax({
+						type: "post",
+						url: skillAdd,
+						async: true,
+						data: {
+							type:form.field.pro1,
+							title:form.field.title,
+							summary:form.field.summary,
+							resource:form.field.resource,
+							icon:form.field.icon,
+							content:form.field.content,
+						},
+						success: function(res) {
+							if(res.code == 0) {
+								$('.action-btn-tijiao').attr('disabled', true)
+								parent.layer.msg('提交成功', {
+									icon: 1,
+									offset: 'tb', //右下角弹出
+									time: 1000, //2s后自动关闭
+								});
+								setTimeout(function() {
+									window.location.href = 'view.html'
+								}, 1000)
+							}
+						}
+					});
+					return false;
+				});
+		
+			})
+			
+			
+			$(".file-img").change(function(){
+				if($('.file-img-show').attr('src').length<1){
+					var imgName=$(this)[0].files[0].name;
+			      	client.multipartUpload("myImg/"+new Date().getTime()+"-"+imgName, this.files[0]).then(function (result) {
+			      		if(result.res.requestUrls[0].indexOf('?uploadId')){
+			      			$('.file-img-show').attr('src',result.res.requestUrls[0].split('?uploadId')[0])//图片展示
+			      			$('.file-data').val(result.res.requestUrls[0].split('?uploadId')[0])
+			      		}else{
+			      			$('.file-img-show').attr('src',result.res.requestUrls[0]) //图片展示
+			      			$('.file-data').val(result.res.requestUrls[0]); //图片 上传的数据
+			      		}
+			      		
+			      		$('.upload-img-div').show(); //图片容器
+			      		$('.upload-img-close').attr('data-close',result.name)  //删除 需要的文件名
+			            console.log('上传图片',result);
+			        }).catch(function (err) {
+			            console.log(err);
+			        });
+				}else{
+					parent.layer.msg('最多上传一张', {
+						icon: 2,
+						offset: 'tb', //右下角弹出
+						time: 1000, //2s后自动关闭
+					});
+				}
+		      	
+		    });
+		    //删除图片
+		    $(".upload-img-close").click(function(){
+		    	$('.file-data').val('');
+				$('.file-img-show').attr('src','')
+				$('.upload-img-div').hide();
+			
+			    $.ajax({
+					type: "post",
+					url: ossDel,
+					async: true,
+					data: {
+						name:$(this).attr('data-close')
+					},
+					success: function(res) {
+						$(".file-img").val('')
+					}
+				});
+		    });
+			
+			
+			$('.action-btn-back').click(function() {
+				window.location.href = 'view.html';
+				return false;
+			})
+
+		})
+		
+		
+	</script>
+
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../../layui/css/layui.css" />
+		<script src="../../../js/jquery-2.1.0.js"></script>
+		<script src="../../../layui/layui.js"></script>
+		<script src="../../../js/public.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../../css/style.css" />
+		
+	</head>
+
+	<body class="my-body-child">
+		<div class="my-content" style="padding-left: 0;">
+			<h3 class="form-title">产品维修</h3>
+				
+				
+			<div class="action-search-btns">
+				
+				<button id="deleteMuch" class="layui-btn layui-btn-danger action-btn-deletes"><i class="layui-icon layui-icon-close"></i>批量删除</button>
+			</div>
+			 <table id="test" class="layui-hide" lay-filter="demoEvent"></table>
+
+		</div>
+
+	</body>
+	<script>
+		var table = null;
+		var resdata = null; //当前页码 的 数据条数;
+		var current = null //当前页数
+		$(function() {
+			var userId = localStorage.getItem('userId')
+			console.log(userId,'iddddddd')
+			
+			layui.use('element', function() {
+				var element = layui.element;
+				element.init();
+
+			});
+			var Thead = [[
+					{type:'checkbox'},
+					{title:'ID',field:'id',unresize:true,},
+					{title:'产品名称',field:'pname',unresize:true},
+					{title:'故障描述',field:'details',unresize:true},
+					{title:'报修时间',field:'create_date',unresize:true},
+					{title:'报修状态',field:'status',unresize:true,templet: function(d){
+        			if(d.status == '1'){
+        				return '<span class="span-status1">未处理</span>'
+        			}
+        			if(d.status == '2'){
+        				return '<span class="span-status2">处理中</span>'
+        			}
+        			if(d.status == '3'){
+        				return '<span class="span-status3">已处理</span>'
+        			}
+      }},
+					{title:'操作',field:'pAction',unresize:true,templet: function(d){
+        return '<button data-id="'+d.id+'" class="layui-btn layui-btn-sm layui-btn-normal action-btn-edit">编辑</button>'+
+        		'<button data-id="'+d.id+'"  class="layui-btn layui-btn-sm layui-btn-danger action-btn-del">删除</button>'
+      }}
+					
+				]]
+			
+				layui.use('table', function(){
+				  table = layui.table;
+				  
+				  table.render({
+				  	id:'idTest',
+				  	cols: Thead,
+				  	skin:'line',
+				    elem: '#test',
+				    
+				  	text: {
+					  none: '暂无相关数据' //默认：无数据。注：该属性为 layui 2.2.5 开始新增
+					},
+					request: {
+						pageName: 'pageIndex', //页码的参数名称，默认：page
+						limitName: 'pageSize' //每页数据量的参数名，默认：limit
+					},
+					cellMinWidth: 80,//全局定义常规单元格的最小宽度，layui 2.2.1 新增
+					page : {
+				        layout: ['count', 'prev', 'page', 'next', 'skip'],
+				        theme: '#1E9FFF',
+				   },
+				   	limit:10,
+				   	limits: [2,10,20,50,100],
+				    url:weixiuTable,
+				    where: {id:userId}, //如果无需传递额外参数，可不加该参数,pageIndex:1,pageSize:2
+				    method: 'post', //如果无需自定义HTTP类型，可不加该参数
+				    /*request: {} //如果无需自定义请求参数，可不加该参数
+				    response: {} //如果无需自定义数据响应名称，可不加该参数*/
+				   	parseData: function(res){ //res 即为原始返回的数据
+				   		/*保存 删除- 分页的数据*/
+				   		console.log(res);
+				   		resdata = res.list;
+				   		current = res.pager.pageIndex;
+					    return {
+					      "code": res.code, //解析接口状态
+					      "msg": res.message, //解析提示文本
+					      "count": res.pager.recordSize, //解析数据长度
+					      "data":  res.records //解析数据列表
+					    };
+					},
+				  	/*done:function(res){
+				  		console.log(res)
+				  	},*/
+				    
+				  });
+				});
+				$("#deleteMuch").click(function(){
+					var checkStatus = table.checkStatus('idTest'); //test即为基础参数id对应的值
+					 var ids = "";
+ 					for(var i = 0;i<checkStatus.data.length;i++){
+ 						ids+=","+checkStatus.data[i].id;
+ 					}
+ 					ids = ids.substring(1);
+ 					if(ids.length<1){
+ 						parent.parent.layer.msg('请至少选择一项', {
+						 	 icon: 2,
+						 	 offset: 'tb', //右下角弹出
+						     time: 1000, //2s后自动关闭
+			//			    skin: 'layer-ext-moon'
+						 });
+ 					}else{
+ 						parent.parent.layer.confirm('你确定删除吗？', {
+						  btn: ['确定','取消'] //按钮
+						}, function(index){
+							del(ids,index)
+						}, function(){
+						  	console.log('取消')
+						});
+ 					}
+ 				})
+				
+				$('.action-btn-add').click(function(){
+					window.location.href='add.html'
+				})
+				$('body').on('click','.action-btn-edit',function(){
+					var formId = $(this).attr('data-id')
+					$.ajax({
+						type: "post",
+						url: isRead,
+						async: true,
+						data: {
+							id:formId,
+							type:2, //维修2
+							
+						},
+						success: function(res) {
+							if(res.code == 0) {
+								window.location.href='edit.html?id='+formId;
+							}
+						}
+					});
+					
+
+				})
+				.on('click','.action-btn-del',function(){
+					var id = $(this).attr('data-id');
+					parent.parent.layer.confirm('你确定删除吗？', {
+					  btn: ['确定','取消'] //按钮
+					}, function(index){
+						del(id,index)
+					}, function(){
+					  	console.log('取消')
+					});
+				})
+				
+				function del(id,index){
+					$.ajax({
+							type:"post",
+							url:weixiuDel,
+							async:true,
+							data:{
+								id:id
+							},
+							success:function(res){
+								console.log(res)
+								if(res.code == 5){
+									parent.parent.layer.close(index)
+								  	parent.parent.layer.msg('删除失败,有未处理的表单', {
+									 	 icon: 2,
+									 	 offset: 'tb', //右下角弹出
+									     time: 1500, //2s后自动关闭
+						//			    skin: 'layer-ext-moon'
+									});
+									
+								}
+								if(res.code == 0){
+									parent.parent.layer.close(index)
+								  	parent.parent.layer.msg('删除成功', {
+									 	 icon: 1,
+									 	 offset: 'tb', //右下角弹出
+									     time: 1500, //2s后自动关闭
+						//			    skin: 'layer-ext-moon'
+									});
+									if(resdata.length ===1 && current>1){
+										var pageIndex = current--;
+										table.reload('idTest', {page: { curr: pageIndex }});
+									}
+									table.reload('idTest');
+								}
+							}
+						});
+				}
+		
+
+		})
+		
+		
+	</script>
+
+</html>

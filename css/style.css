@@ -1,0 +1,301 @@
+*{
+	box-sizing: border-box;
+	word-wrap: break-word;
+}
+.esc:hover{
+	cursor: pointer;
+}
+.ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	
+	/*-webkit-line-clamp: 1;*/
+}
+/*左边的aside*/
+.my-layui-aside{
+	background: #fff !important;
+}
+.my-layui-aside i.iconfont{
+	color: #666 !important;
+	margin-right: 12px;
+}
+/*左边的aside  - ul*/
+.my-layui-aside .layui-nav{
+	background: #fff !important;
+}
+/*左边的aside  - ul li a的字体*/
+.my-layui-aside .layui-nav .layui-nav-item a{
+	color: #666;
+}
+
+/*二级菜单*/
+.my-layui-aside .layui-nav-itemed>.layui-nav-child{
+	background: #fff !important;
+}
+.my-layui-aside  .layui-nav-tree .layui-nav-child a{
+	padding-left: 58px !important;
+}
+.my-layui-aside .layui-this{
+	border-right: 2px solid #2194FA;
+}
+
+.layui-body{
+	
+}
+#my-content{
+	width: 100%;
+	background: #fff;
+	min-height: calc(100% - 3px);
+}
+/*面包屑*/
+.my-breadcrumb{
+	width: 100%;
+	background: #F1F2F6;
+	height: 56px;
+	line-height: 56px;
+	padding-left: 30px;
+}
+
+.my-breadcrumb span{
+	color: #666;
+}
+.my-content{
+	width: 100%;
+	padding:24px 30px;
+	background: #fff;
+	height: 100%;
+}
+.my-body{
+	background: #F0F1F5;
+	padding: 0 24px 0 24px;
+}
+
+.my-form-search:after{
+	content: '';
+	display: block;
+	clear: both;
+}
+form.my-form-search .layui-form-item{
+	margin: 0;
+}
+.my-form-search>div.layui-form-item{
+	margin-right: 20px;
+}
+.my-form-search>div.layui-form-item:last-child{
+	margin-right: 0;
+}
+
+/*表格  上面的按钮*/
+.action-search-btns{
+	overflow: hidden;
+	margin: 20px 0 15px;
+}
+.action-search-btns .action-btn-add{
+	float: left;
+}
+.action-search-btns .action-btn-deletes{
+	float: right;
+}
+/*表单 下面的按钮*/
+.action-form-btns{
+	overflow: hidden;
+	margin: 20px 0 15px 180px;
+}
+.action-form-btns .action-btn-tijiao{
+	float: left;
+}
+.action-form-btns .action-btn-back{
+	float: left;
+}
+/*详情 编辑  表单*/
+.form-title{
+	font-size: 18px;
+	font-weight: 600;
+	margin-bottom: 25px;
+}
+.my-form .layui-form-item{
+	margin-bottom: 20px;
+}
+.my-label{
+	width: 180px;
+	text-align: right;
+	color: #333;
+}
+.my-label>span{
+	color: #999;
+}
+.my-from-input{
+	float: left;
+}
+.my-from-input input,.my-from-input .layui-form-select{
+	width: 400px;
+}
+.my-from-input textarea{
+	width: 500px;
+}
+/*表单  图片上传*/
+.my-from-input button.file-btn {
+	position: relative;
+	
+}
+.my-from-input .file-tips{
+	color: #999;
+	margin-top: 5px;
+}
+
+.my-from-input input.file-img,.my-from-input input.file-psd{
+	width: 100%;
+	height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+.upload-img-div{
+	position: relative;
+	margin-top: 15px;
+	display: none;
+}
+.upload-img-div i{
+	position: absolute;
+	font-size: 25px;
+	cursor: pointer;
+	color: #666;
+	left: 100px;
+    top: -10px
+}
+.upload-img-div img{
+	width: 113px;
+	height: 113px;
+	border-radius: 2px;
+}
+
+
+
+.upload-psd-div{
+	position: relative;
+	margin-top: 10px;
+	display: none;
+	overflow: hidden;
+	
+}
+.upload-psd-p{
+	width: calc(100% - 50px);
+	height: 30px;
+	line-height: 30px;
+	/*border: 1px solid red;*/
+	color: #333;
+	font-size: 14px;
+	-webkit-line-clamp: 1;
+	float: left;
+}
+.upload-psd-div i{
+	position: absolute;
+	font-size: 25px;
+	cursor: pointer;
+	color: #666;
+	right: -2px;
+    top: 2px
+}
+.upload-psd-div span{
+	float: left;
+	width: 30px;
+	font-size: 22px;
+	line-height: 30px;
+	margin-right: 8px;
+}
+/*富文本 隐藏textarea*/
+.my-textarea{
+	display: none;
+}
+.w-e-text{
+	
+}
+/*富文本  上传图片*/
+.wangEditor-upload img{
+	height: 100px !important;
+}
+
+
+.toolbar>div:last-child{
+	height: 200px !important;
+}
+
+
+.my-textarea-div textarea{
+	 width: 400px;
+	 height: 100px;
+	 min-height: 100px;
+	 padding-top: 10px;
+	 resize: vertical;
+}
+
+/*客户资料*/
+#my-ziliao-box{
+	width: 100%;
+	padding-right: 24px;
+	height: calc(100% - 3px);
+
+}
+.my-ziliao-aside{
+	width: 201px;
+	margin-left: 24px;
+	height: calc(100% - 56px);
+	margin-top: 56px;
+	border-right: 1px solid #EBEBEB;
+}
+
+.my-ziliao-aside .layui-side-scroll,.my-ziliao-aside .layui-side-scroll{
+	width: 200px;
+}
+.my-ziliao-aside .layui-nav-tree{
+	width: 200px;
+}
+
+.my-form-text{
+	
+}
+
+.my-form-text .layui-form-label.my-label{
+	width: 100px;
+}
+.my-form-text span.form-text{
+	padding-left: 15px;
+	height: 38px;
+	display: inline-block;
+	line-height: 38px;
+}
+.span-status1{
+	display: inline-block;
+    height: 26px;
+    font-size: 12px;
+ 	line-height: 16px;
+    padding: 4px 10px;
+    border-radius: 5px;
+    color: #666;
+    border: 1px solid #CCC;
+}
+.span-status2{
+	display: inline-block;
+    height: 26px;
+     font-size: 12px;
+ 	line-height: 18px;
+    padding: 4px 10px;
+    border-radius: 5px;
+    color: #fff;
+    background: #FFB800;
+}
+
+.span-status3{
+	display: inline-block;
+    height: 26px;
+     font-size: 12px;
+ 	line-height: 18px;
+    padding: 4px 10px;
+    border-radius: 5px;
+    color: #fff;
+    background: #1E9FFF;
+}

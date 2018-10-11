@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../../layui/css/layui.css" />
+		<script src="../../../js/jquery-2.1.0.js"></script>
+		<script src="../../../layui/layui.js"></script>
+		<script type="text/javascript" src="http://gosspublic.alicdn.com/aliyun-oss-sdk.min.js "></script>
+		
+		<script src="../../../js/public.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../../css/style.css" />
+	</head>
+
+	<body class="my-body">
+
+		<div class="my-breadcrumb">
+			<span class="layui-breadcrumb">
+		  <a>产品维护</a>
+		  <a>产品类型</a>
+		  <a><cite>产品类型添加</cite></a>
+		</span>
+		</div>
+		<div class="my-content">
+			<h3 class="form-title">产品类型添加</h3>
+
+			<form class="layui-form my-form" style="" action="">
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">产品类别：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<select  class="pro1" lay-filter="pro1" name="pro1" required lay-verify="required" autocomplete="off">
+							<option value="">请选择</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">产品类型：</label>
+					<div style="width: 300px;" class="my-from-input">
+						<input type="text" name="type" required lay-verify="required" placeholder="请输入产品类型" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				
+				<div class="action-form-btns">
+					<button lay-submit lay-filter="tijiao" class="layui-btn layui-btn-normal action-btn-tijiao">提交</button>
+					<button class="layui-btn layui-btn-primary action-btn-back">取消</button>
+				</div>
+			</form>
+
+		</div>
+
+	</body>
+	<script>
+		$(function() {
+			Sel1(1);
+			layui.use('element', function() {
+				var element = layui.element;
+				element.init();
+
+			});
+			layui.use('form', function() {
+				var form = layui.form;
+				form.render();
+				form.on('submit(tijiao)', function(form) {
+					$.ajax({
+						type: "post",
+						url: productType2Add,
+						async: true,
+						data: {
+							type1Id:form.field.pro1,
+							typeName: form.field.type,
+						},
+						success: function(res) {
+							if(res.code == 0) {
+								$('.action-btn-tijiao').attr('disabled', true)
+								parent.layer.msg('提交成功', {
+									icon: 1,
+									offset: 'tb', //右下角弹出
+									time: 1000, //2s后自动关闭
+								});
+								setTimeout(function() {
+									window.location.href = 'view.html'
+								}, 1000)
+							}
+						}
+					});
+					return false;
+				});
+			});
+			
+			
+			$('.action-btn-back').click(function() {
+				window.location.href = 'view.html';
+				return false;
+			})
+
+		})
+	</script>
+
+</html>
