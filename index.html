@@ -31,8 +31,8 @@
       </li>
       <li class="layui-nav-item" style="padding-left: 0;">
         <a href="javascript:;" style="padding-left: 0;">
-          <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-          测试工程师-林俊锋1
+          <img src="img/admin-2.png" class="layui-nav-img" style="margin-top: -5px;">
+          <span class="admin-user"></span><!--测试工程师-林俊锋1-->
         </a>
         <dl class="layui-nav-child">
           <!--<dd><a href="">基本资料</a></dd>-->
@@ -131,16 +131,13 @@ layui.use('layer', function(){
 var layer = layui.layer; 
 });
 
-//默认加载第一个
-$(function(){
-	$('#my-content').attr('src','view/product/list1/view.html')
-	/*未读消息统计*/
-	$.ajax({
+/*未读消息统计*/
+	function isRead(){
+		$.ajax({
 			type:"post",
 			url:msgNum,
 			async:true,
 			success:function(res){
-				console.log('消息--',res)
 				if(res.code == 0){
 					if(res.record.total>0){
 						$('.msg-show').show();
@@ -152,7 +149,26 @@ $(function(){
 					}
 				}
 			}
-	});
+		});
+	}
+//默认加载第一个
+$(function(){
+	$('#my-content').attr('src','view/product/list1/view.html')
+	
+	isRead();
+	
+	//读取用户信息
+	var admin =JSON.parse(localStorage.getItem('adminLogin'));
+	if(admin){
+		$('.admin-user').html(admin.name)
+	}
+	console.log(admin,'22222222')
+//	$('.admin-user').html(admin.name)
+	var isLogin = sessionStorage.getItem('isLogin');
+	if(isLogin != 'true'){
+		window.location.href='login.html'
+	}
+	
 	
 })
 //点击对应的左侧菜单进行右部页面加载
@@ -187,9 +203,10 @@ $('.layui-nav-item').on('click',function(){
 //退出
 $('.esc').on('click',function(event){
 	
-	layer.confirm('你确定删除吗？', {
+	layer.confirm('你确定退出吗？', {
 	  btn: ['确定','取消'] //按钮
 	}, function(index){
+			sessionStorage.removeItem('isLogin')
 			window.location.href='login.html'
 	}, function(){
 	  	console.log('取消')

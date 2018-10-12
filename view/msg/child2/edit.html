@@ -14,11 +14,11 @@
 
 	<body class="my-body-child">
 
-		<div class="my-content"  style="padding-left: 0;">
+		<div class="my-content"  style="padding-left: 0;padding-top: 0;">
 			<h3 class="form-title">维修单详情</h3>
 			<form class="layui-form my-form" lay-filter='myForm'  style="" action="">
 				<div class="layui-form-item">
-					<label style="width: 100px;" class="layui-form-label my-label">维修状态：</label>
+					<label style="width: 100px;" class="layui-form-label my-label">处理状态：</label>
 					<div style="width: 300px;margin-left: 15px;" class="my-from-input">
 						<select class="status" required lay-verify="required" name="status" autocomplete="off">
 							<option value="">请选择</option>
@@ -62,6 +62,8 @@
 	<script>
 		
 		$(function() {
+			window.parent.$('.my-msg-body').css({height:'100%'});
+	
 			var initId = location.search.split('?id=')[1];
 			layui.use('element', function() {
 				var element = layui.element;
@@ -156,6 +158,8 @@
 									time: 1000, //2s后自动关闭
 								});
 								setTimeout(function() {
+									window.parent.$('.my-msg-nav').show();
+									window.parent.$('.my-msg-body').css({height:'calc(100% - 56px)'});
 									window.location.href = 'view.html'
 								}, 1000)
 							}
@@ -166,9 +170,25 @@
 			})
 			
 			$('.action-btn-back').click(function() {
+				
+				window.parent.$('.my-msg-nav').show();
+				window.parent.$('.my-msg-body').css({height:'calc(100% - 56px)'});
 				window.location.href = 'view.html';
 				return false;
 			})
+			var counter = 0;
+	            if (window.history && window.history.pushState) {
+                    $(window).on('popstate', function () {
+                        window.history.pushState('forward', null, '#');
+                        window.history.forward(1);
+                      	window.parent.$('.my-msg-nav').show();
+                      	window.parent.$('.my-msg-body').css({height:'calc(100% - 56px)'});
+						window.location.href = 'view.html';
+                    });
+	              }
+
+	              window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+	              window.history.forward(1);
 		})
 		
 		

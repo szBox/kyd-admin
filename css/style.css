@@ -13,6 +13,7 @@
 	
 	/*-webkit-line-clamp: 1;*/
 }
+
 /*左边的aside*/
 .my-layui-aside{
 	background: #fff !important;
@@ -366,3 +367,4 @@ form.my-form-search .layui-form-item{
 	font-size: 12px;
 	font-style: normal;
 }
+

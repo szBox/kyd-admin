@@ -45,7 +45,7 @@
 					{title:'产品名称',field:'pname',unresize:true},
 					{title:'故障描述',field:'details',unresize:true},
 					{title:'报修时间',field:'create_date',unresize:true},
-					{title:'报修状态',field:'status',unresize:true,templet: function(d){
+					{title:'处理状态',field:'status',unresize:true,templet: function(d){
         			if(d.status == '1'){
         				return '<span class="span-status1">未处理</span>'
         			}

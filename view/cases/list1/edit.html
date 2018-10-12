@@ -185,6 +185,7 @@
 		        'head',
 		        'bold',
 		        'fontSize',
+		        'image',
 		        'undo',
 		    ]
 		    editor4.customConfig.menus = [
@@ -194,7 +195,38 @@
 		        'image',
 		        'undo',
 		    ]
-		    
+		     //这里注意，下面的/news/upload是我的路由部分，主要是上传图片的后端代码
+			editor3.customConfig.uploadImgServer = '/myImg'; // 上传图片到服务器
+			
+			//定义上传的filename，即上传图片的名称
+			editor3.customConfig.uploadFileName = 'images';
+			editor3.customConfig.showLinkImg = false;
+			//开启wangEditor的错误提示，有利于我们更快的找到出错的地方
+			editor3.customConfig.debug = true;
+//			editor4.customConfig.customUploadInit = function(file){
+//				console.log(file,'sh')
+//			};
+			editor3.customConfig.pasteFilterStyle = false
+                 // 将图片大小限制为10M
+			editor3.customConfig.uploadImgMaxSize = 10 * 1024 * 1024;
+			
+            editor3.customConfig.customUploadImg = function (files, insert) {
+            	console.log(files,'文件列表')
+            	var imgName=new Date().getTime()+"-"+files[0].name;
+		      	client.multipartUpload("myImg/"+imgName, files[0]).then(function (result) {
+		      		if(result.res.requestUrls[0].indexOf('?uploadId')){
+		      			
+		      			insert(result.res.requestUrls[0].split('?uploadId')[0])
+		      		}else{
+		      			
+		      			insert(result.res.requestUrls[0]); //图片 上传的数据
+		      		}
+		      		
+		            console.log('上传图片',result);
+		        }).catch(function (err) {
+		            console.log(err);
+		        });
+			}
 		    //这里注意，下面的/news/upload是我的路由部分，主要是上传图片的后端代码
 			editor4.customConfig.uploadImgServer = '/myImg'; // 上传图片到服务器
 			

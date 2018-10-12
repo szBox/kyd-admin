@@ -88,15 +88,26 @@
 						success:function(res){
 							console.log(res)
 							if(res.code == 0){
-								$('.login-btn').attr('disabled', true)
-								layer.msg('登录成功', {
-									icon: 1,
-									offset: 'tb', //右下角弹出
-									time: 1000, //2s后自动关闭
-								},function(){
-									
-									window.location.href='index.html'
-								});
+								if(res.record.roleId == '1'){
+									$('.login-btn').attr('disabled', true)
+									layer.msg('登录成功', {
+										icon: 1,
+										offset: 'tb', //右下角弹出
+										time: 1000, //2s后自动关闭
+									},function(){
+										localStorage.setItem('adminLogin',JSON.stringify(res.record))  // 存储用户信息
+										
+										sessionStorage.setItem('isLogin',true);
+										window.location.href='index.html'
+									});
+								}else{
+									layer.msg('登录失败,没有权限', {
+										icon: 5,
+										offset: 'tb', //右下角弹出
+										time: 1000, //2s后自动关闭
+									})
+								}
+								
 								
 							}else{
 								layer.msg('账号或密码错误', {

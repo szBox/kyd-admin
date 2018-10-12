@@ -14,10 +14,23 @@
 
 	<body class="my-body-child my-msg-body-child">
 		<div class="my-content" style="padding-left: 0;">
-		
+			
 				
 			<div class="action-search-btns">
-				
+				<form class="layui-form my-form-search" style="float: left;"  style="" action="">
+
+				<div class="layui-form-item" style="float: left;display: none;">
+					<label style="" class="layui-form-label">方案类型：</label>
+					<div style="width: 240px;margin-left: 72px;" class="layui-input-block">
+						<select  class="pro1" lay-filter="pro1" name="pro1">
+							<option value="0">请选择</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item" style="float: left;">
+					<input type="text" name='names'  placeholder="请输入姓名" autocomplete="off" class="my-search layui-input">
+				</div>
+			</form>
 				<button id="deleteMuch" class="layui-btn layui-btn-danger action-btn-deletes"><i class="layui-icon layui-icon-close"></i>批量删除</button>
 			</div>
 			 <table id="test" class="layui-hide" lay-filter="demoEvent"></table>
@@ -30,18 +43,33 @@
 		var resdata = null; //当前页码 的 数据条数;
 		var current = null //当前页数
 		$(function() {
-
+			
 			layui.use('element', function() {
 				var element = layui.element;
 				element.init();
 
 			});
+			layui.use('form', function() {
+					var form = layui.form;
+					form.render();
+					
+					/*监听 输入 改变*/
+					$(".my-search").keypress(function (e) {
+						var names = $(this).val();
+		                if (e.which == 13) {
+		                    /*获取 产品 表格*/
+							table.reload('idTest', {page: { curr: 1 } ,where:{name:names}})
+		                }
+					});
+				});
 			var Thead = [[
 					{type:'checkbox'},
 					{title:'ID',field:'id',unresize:true,},
+					{title:'姓名',field:'name',unresize:true},
+					{title:'电话',field:'telephone',unresize:true},
 					{title:'咨询内容',field:'content',unresize:true},
 					{title:'咨询时间',field:'create_date',unresize:true},
-					{title:'咨询状态',field:'status',unresize:true,templet: function(d){
+					{title:'处理状态',field:'status',unresize:true,templet: function(d){
         			if(d.status == '1'){
         				if(d.is_read == '1'){
         					return '<p class="isRead-p"><span class="span-status1">未处理</span> <i></i></p>'
@@ -84,7 +112,7 @@
 				        layout: ['count', 'prev', 'page', 'next', 'skip'],
 				        theme: '#1E9FFF',
 				   },
-				   	limit:10,
+				   	limit:8,
 				   	limits: [2,10,20,50,100],
 				    url:zixunAllTable,
 				    where: {}, //如果无需传递额外参数，可不加该参数,pageIndex:1,pageSize:2
@@ -94,8 +122,7 @@
 				   	parseData: function(res){ //res 即为原始返回的数据
 				   		/*保存 删除- 分页的数据*/
 				   		console.log(res);
-				   		$('.msg-num').html('222222222')
-				   		resdata = res.records;
+				   		resdata = res.list;
 				   		current = res.pager.pageIndex;
 					    return {
 					      "code": res.code, //解析接口状态
@@ -140,6 +167,7 @@
 				})
 				$('body').on('click','.action-btn-edit',function(){
 					var formId = $(this).attr('data-id')
+					/*调取是否 已读*/
 					$.ajax({
 						type: "post",
 						url: isRead,
@@ -147,11 +175,12 @@
 						data: {
 							id:formId,
 							type:1, //咨询1
-							
 						},
 						success: function(res) {
 							if(res.code == 0) {
 								window.parent.$('.my-msg-nav').hide();
+								window.parent.isReadNav();
+								window.parent.parent.isRead();
 								window.location.href='edit.html?id='+formId;
 							}
 						}

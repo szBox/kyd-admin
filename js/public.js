@@ -1,7 +1,22 @@
 
 
 window.host='http://192.168.1.76:8080';
-//window.host='';
+
+var form = null
+
+layui.use(['layer', 'form', 'element'], function(){
+  var layer = layui.layer
+  ,form = layui.form
+  ,element = layui.element
+ 
+  //……
+  //你的代码都应该写在这里面
+  element.init();
+   form.render();
+});
+
+
+
 
 
 /************************接口********************/
@@ -247,21 +262,15 @@ var weixiuAllTable = host+'/info_bg/pageMaintenance';
 //合作
 //表格
 var cooperateTable = host+'/info_bg/queryCooperate';
+//编辑 合作状态
+var cooperateStatusEdit =host+'/case_bg/updateStatus';
+//查看
+var cooperateSee = host+'/case_bg/partnerDetail';
+//删除
+var cooperateDel = host+'/info_bg/deleteCooperate';
 
 
 
-var form = null
-
-layui.use(['layer', 'form', 'element'], function(){
-  var layer = layui.layer
-  ,form = layui.form
-  ,element = layui.element
- 
-  //……
-  //你的代码都应该写在这里面
-  element.init();
-   form.render();
-});
 
 
 /*1级 下拉*/

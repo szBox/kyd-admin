@@ -14,11 +14,11 @@
 
 	<body class="my-body-child">
 
-		<div class="my-content"  style="padding-left: 0;">
-			<h3 class="form-title">维修单详情</h3>
+		<div class="my-content hezuo-box"  style="padding-left: 0;padding-top: 0;">
+			<h3 class="form-title">合作详情</h3>
 			<form class="layui-form my-form" lay-filter='myForm'  style="" action="">
 				<div class="layui-form-item">
-					<label style="width: 100px;" class="layui-form-label my-label">维修状态：</label>
+					<label style="width: 100px;" class="layui-form-label my-label">处理状态：</label>
 					<div style="width: 300px;margin-left: 15px;" class="my-from-input">
 						<select class="status" required lay-verify="required" name="status" autocomplete="off">
 							<option value="">请选择</option>
@@ -32,19 +32,53 @@
 			
 			<div class=" my-form-text">
 				<div class="layui-form-item">
-					<label style="" class="layui-form-label my-label">客户名称：</label>
-					<span class="form-text user"></span>
+					<label style="" class="layui-form-label my-label">公司名称：</label>
+					<span class="form-text companyName"></span>
 				</div>
 				<div class="layui-form-item">
-					<label style="" class="layui-form-label my-label">地址：</label>
+					<label style="" class="layui-form-label my-label">营业年限：</label>
+					<span class="form-text creatDate"></span>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">公司规模：</label>
+					<span class="form-text incumbency"></span>
+				</div>
+			
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">经营范围：</label>
+					<span class="form-text businessScope"></span>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">公司网站：</label>
+					<span class="form-text domainName"></span>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">公司地址：</label>
 					<span class="form-text address"></span>
 				</div>
 				<div class="layui-form-item">
-					<label style="" class="layui-form-label my-label">联系人及电话：</label>
-					<span class="form-text contact"></span>
+					<label style="" class="layui-form-label my-label">联系人：</label>
+					<span class="form-text linkman"></span>
 				</div>
-				<div class='my-weixiu-list'>
-					
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">电话：</label>
+					<span class="form-text phoneCode"></span>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">电子邮箱：</label>
+					<span class="form-text email"></span>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">行业：</label>
+					<span class="form-text industry"></span>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">合作类型：</label>
+					<span class="form-text type"></span>
+				</div>
+				<div class="layui-form-item">
+					<label style="" class="layui-form-label my-label">典型案例：</label>
+					<span class="form-text cases"></span>
 				</div>
 				
 			</div>
@@ -57,11 +91,21 @@
 			 
 
 		</div>
-
+		<style>
+			.hezuo-box{
+				margin-top: 24px;
+				padding-top: 0;
+			}
+			.hezuo-box:before{
+				content: '';
+				display: table;
+			}
+		</style>
 	</body>
 	<script>
-		
+		var idData = null;
 		$(function() {
+			window.parent.$('.my-msg-body').css({height:'100%'});
 			var initId = location.search.split('?id=')[1];
 			layui.use('element', function() {
 				var element = layui.element;
@@ -75,65 +119,77 @@
 //				初始赋值
 				$.ajax({
 					type:"post",
-					url:weixiuSee,
+					url:cooperateSee,
 					async:true,
 					data:{
 						id:initId,
 					},
 					success:function(res){
 						if( res.code == 0){
+							idData = res.record.id;
 							form.val("myForm", {
 								'status':res.record.status
 							})
-							console.log('查看',res)
-							$('.user').html(res.record.client);
+							console.log('合作查看',res)
+							if(res.record.type == '0'){
+		        				res.record.type = '渠道合作'
+		        			}	
+		        			if(res.record.type == '1'){
+		        				res.record.type =  '产品合作'
+		        			}
+		        			if(res.record.type == '2'){
+		        				res.record.type =  '项目合作'
+		        			}
+		        			if(res.record.type == '3'){
+		        				res.record.type =  '战略合作'
+		        			}
+		        			if(res.record.type == '4'){
+		        				res.record.type =  '其他'
+		        			}
+		        			if(res.record.incumbency == '1'){
+		        				res.record.incumbency =  '100以下'
+		        			}
+		        			if(res.record.incumbency == '2'){
+		        				res.record.incumbency =  '300以下'
+		        			}
+		        			if(res.record.incumbency == '3'){
+		        				res.record.incumbency =  '500以下'
+		        			}
+		        			if(res.record.incumbency == '4'){
+		        				res.record.incumbency =  '500以上'
+		        			}
+		        			if(res.record.creatDate == '1'){
+		        				res.record.creatDate =  '3年以下'
+		        			}
+		        			if(res.record.creatDate == '2'){
+		        				res.record.creatDate =  '3至5年'
+		        			}
+		        			if(res.record.creatDate == '3'){
+		        				res.record.creatDate =  '5-10年'
+		        			}
+		        			if(res.record.creatDate == '4'){
+		        				res.record.creatDate =  '10年以上'
+		        			}
+							$('.linkman').html(res.record.linkman);
+							$('.phoneCode').html(res.record.phoneCode);
+							$('.email').html(res.record.email);
+							$('.domainName').html(res.record.domainName);
+							$('.businessScope').html(res.record.businessScope);
+							$('.linkman').html(res.record.linkman);
+							$('.linkman').html(res.record.linkman);
+							$('.linkman').html(res.record.linkman);
+							
+							$('.companyName').html(res.record.companyName);
+							$('.cases').html(res.record.cases);
 							$('.address').html(res.record.address);
-							$('.contact').html(res.record.contact);
+							
+							$('.incumbency').html(res.record.incumbency) //公司规模	企业规模(1:100以下 2:300以下 3:500以下 4:500以上)
+							$('.industry').html(res.record.industry) //客户行业	
+							$('.creatDate').html(res.record.creatDate) //营业年限(1:3年以下,2:3至5年,3:5-10年,4:10年以上)
+							$('.type').html(res.record.type) //合作类型 
+							
 							$('.action-form-btns').show()
-							var weixiuList = '';
-							for(var i=0; i<res.record.products.length; i++){
-									if(res.record.products[i].type=='0'){
-										res.record.products[i].type = '调换'
-									}
-									if(res.record.products[i].type=='1'){
-										res.record.products[i].type = '维修'
-									}
-									if(res.record.products[i].type=='2'){
-										res.record.products[i].type = '退货'
-									}
-									if(res.record.products[i].type=='3'){
-										res.record.products[i].type = '其他'
-									}
-									weixiuList+=
-										'<div class="layui-form-item">'+
-											'<label style="font-weight:bold" class="layui-form-label my-label">维修单('+(i+1)+')：</label>'+
-										'</div>'+
-										'<div class="layui-form-item">'+
-											'<label style="" class="layui-form-label my-label">订单号：</label>'+
-											'<span class="form-text orderNo">'+res.record.products[i].orderNo+'</span>'+
-										'</div>'+
-										'<div class="layui-form-item">'+
-											'<label style="" class="layui-form-label my-label">产品名称：</label>'+
-											'<span class="form-text pname">'+res.record.products[i].pname+'</span>'+
-										'</div>'+
-										'<div class="layui-form-item">'+
-											'<label style="" class="layui-form-label my-label">产品型号：</label>'+
-											'<span class="form-text model">'+res.record.products[i].model+'</span>'+
-										'</div>'+
-										'<div class="layui-form-item">'+
-											'<label style="" class="layui-form-label my-label">产品数量：</label>'+
-											'<span class="form-text number">'+res.record.products[i].number+'</span>'+
-										'</div>'+
-										'<div class="layui-form-item">'+
-											'<label style="" class="layui-form-label my-label">维修类型：</label>'+
-											'<span class="form-text type">'+res.record.products[i].type+'</span>'+
-										'</div>'+
-										'<div class="layui-form-item">'+
-											'<label style="" class="layui-form-label my-label">故障描述：</label>'+
-											'<span class="form-text details">'+res.record.products[i].details+'</span>'+
-										'</div>'
-								}
-							$('.my-weixiu-list').html(weixiuList)
+									
 						}
 					}
 				});
@@ -141,10 +197,10 @@
 				form.on('submit(tijiao)', function(form) {
 					$.ajax({
 						type: "post",
-						url: weixiuStatusEdit,
+						url: cooperateStatusEdit,
 						async: true,
 						data: {
-							id:initId,
+							id:idData,
 							status:form.field.status
 						},
 						success: function(res) {
@@ -156,6 +212,8 @@
 									time: 1000, //2s后自动关闭
 								});
 								setTimeout(function() {
+									window.parent.$('.my-msg-nav').show();
+									window.parent.$('.my-msg-body').css({height:'calc(100% - 56px)'});
 									window.location.href = 'view.html'
 								}, 1000)
 							}
@@ -166,9 +224,25 @@
 			})
 			
 			$('.action-btn-back').click(function() {
+				
+				window.parent.$('.my-msg-nav').show();
+				window.parent.$('.my-msg-body').css({height:'calc(100% - 56px)'});
 				window.location.href = 'view.html';
 				return false;
 			})
+			var counter = 0;
+	            if (window.history && window.history.pushState) {
+                    $(window).on('popstate', function () {
+                        window.history.pushState('forward', null, '#');
+                        window.history.forward(1);
+                      	window.parent.$('.my-msg-nav').show();
+                      	window.parent.$('.my-msg-body').css({height:'calc(100% - 56px)'});
+						window.location.href = 'view.html';
+                    });
+	              }
+
+	              window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+	              window.history.forward(1);
 		})
 		
 		

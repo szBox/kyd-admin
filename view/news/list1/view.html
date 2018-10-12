@@ -40,7 +40,7 @@
 				<button id="deleteMuch" class="layui-btn layui-btn-danger action-btn-deletes"><i class="layui-icon layui-icon-close"></i>批量删除</button>
 			</div>
 			
-			<table id="test" class="layui-hide" lay-filter="demoEvent"></table>
+			<table id="test" style="overflow-x: hidden;" class="layui-hide" lay-filter="demoEvent"></table>
 			
 		</div>
 
@@ -48,7 +48,9 @@
 		<script>
 		</script>
 		<style>
-
+			.laytable-cell-1-0-2 {
+				max-width: 200px;
+			}
 		</style>
 		<script>
 			var table = null;

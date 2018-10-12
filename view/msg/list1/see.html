@@ -25,17 +25,17 @@
 		<div class="my-content" style="height: calc(100% - 56px); padding-right: 0;padding-bottom: 0;">
 			<div class="layui-tab layui-tab-brief my-msg-nav" lay-filter="docDemoTabBrief">
 			  <ul class="layui-tab-title">
-			    <li class="layui-this msg-li">
-			    	<a class="" href="../child1/view.html">服务咨询</a>
-			    	<span class='msg-num  msg-show'>1</span>
+			    <li class="layui-this msg-li" data-href="../child1/view.html">
+			    	<a class="">服务咨询</a>
+			    	<span class='msg-num  msg-show'></span>
 			    </li>
-			    <li class="msg-li">
-			    	<a class="" href="../child2/view.html">产品维修</a>
-			    	<span class='msg-num msg-show'>2</span>
+			    <li class="msg-li"  data-href="../child2/view.html">
+			    	<a class="">产品维修</a>
+			    	<span class='msg-num msg-show'></span>
 			    </li>
-			    <li class="msg-li"> 
-			    	<a class="" href="../child3/view.html">合作申请</a>
-			    	<span class='msg-num msg-show'>3</span>
+			    <li class="msg-li"   data-href="../child3/view.html"> 
+			    	<a class="">合作申请</a>
+			    	<span class='msg-num msg-show'></span>
 			    </li>
 			  </ul>
 			 
@@ -52,7 +52,7 @@
 		</script>
 		<style>
 			.my-msg-body{
-			
+				/*height: 100%;*/
    				 height: calc(100% - 56px);
    				 width: calc(100% + 15px);
    				 overflow-x: hidden;
@@ -60,18 +60,8 @@
 		</style>
 		<script>
 			
-			$(function() {
-				
-				
-				//默认加载第一个
-//				$('.my-link-1').css('background-color','#009688')
-				$('#my-ziliao-box').attr('src','../child1/view.html')
-				layui.use('element', function() {
-					var element = layui.element;
-					element.init();
-
-				});
-				/*未读消息统计*/
+			/*未读消息统计*/
+			function isReadNav(){
 				$.ajax({
 					type:"post",
 					url:msgNum,
@@ -85,6 +75,9 @@
 								if(res.record.consult>99){
 									$('.msg-num').eq(0).html(99);
 								}
+							}else{
+								$('.msg-show').eq(0).hide();
+								$('.msg-num').eq(0).html('');
 							}
 							if(res.record.maintenanceuser>0){
 								$('.msg-show').eq(1).show();
@@ -92,6 +85,9 @@
 								if(res.record.maintenanceuser>99){
 									$('.msg-num').eq(1).html(99);
 								}
+							}else{
+								$('.msg-show').eq(1).hide();
+								$('.msg-num').eq(1).html('');
 							}
 							if(res.record.cooperateform>0){
 								$('.msg-show').eq(2).show();
@@ -99,19 +95,37 @@
 								if(res.record.cooperateform>99){
 									$('.msg-num').eq(2).html(99);
 								}
+							}else{
+								$('.msg-show').eq(2).hide();
+								$('.msg-num').eq(2).html('');
 							}
 						}
 					}
 				});
+			}
+			
+			$(function() {
+				var myId = '父亲id'
+				
+				//默认加载第一个
+//				$('.my-link-1').css('background-color','#009688')
+				$('#my-ziliao-box').attr('src','../child1/view.html')
+				layui.use('element', function() {
+					var element = layui.element;
+					element.init();
+
+				});
+				
+				isReadNav();
 				
 				//        点击对应的左侧菜单进行右部页面加载
-				$('.layui-tab-title li a').on('click', function (event) {
+				$('.layui-tab-title li').on('click', function (event) {
 //					$('.my-link-1').css('background-color','none')
 					var $this = $(this)
 					event.preventDefault()
 //					if(!$this.parent().hasClass('layui-this')){
-						var loadHtml = $this.attr('href')
-						 $('.data-cite').html($this.html())
+						var loadHtml = $this.attr('data-href')
+						 $('.data-cite').html($this.find('a').html())
 						$('#my-ziliao-box').attr('src',loadHtml)
 						
 //					}
