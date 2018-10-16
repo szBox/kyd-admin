@@ -37,15 +37,14 @@
 				</div>
 				<div class="layui-form-item  my-textarea-div">
 					<label style="" class="layui-form-label my-label">岗位职责：</label>
-					<div style="width: 300px;" class="my-from-input">
-						 <textarea name="statementdom" required lay-verify="required" placeholder="请输入岗位职责" class="layui-input "></textarea>
+					<div style="" class="my-from-input my-wangEditor-div">
+						<div style="" id="dom3"   class=""></div>
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label style="" class="layui-form-label my-label">我们的期望：</label>
-					<div style="width: 500px;" class="my-from-input">
-						<div id="dom4" class="toolbar"></div>
-						<textarea name="claimdom" value='' required lay-verify="dom4Require" placeholder="请输入我们的期望" class="layui-textarea my-textarea"></textarea>
+					<div style="" class="my-from-input my-wangEditor-div">
+						<div style="" id="dom4"   class=""></div>
 					</div>
 				</div>
 				<div class="action-form-btns">
@@ -75,9 +74,18 @@
 			});
 			
 			var E = window.wangEditor
+			var editor3 = new E('#dom3');
 			var editor4 = new E('#dom4');
-	
+		
 			// 自定义菜单配置
+			 editor3.customConfig.menus = [
+		        'head',
+		        'bold',
+		        'fontSize',
+		        'list',  // 列表
+		        
+		        'undo',
+		    ]
 			 editor4.customConfig.menus = [
 		        'head',
 		        'bold',
@@ -87,10 +95,7 @@
 		        'undo',
 		    ]
 			
-           	editor4.customConfig.onchange = function(html) {
-				// 监控变化，同步更新到 textarea
-				$('[name="claimdom"]').html(html);
-			}
+           	editor3.create();
            	editor4.create();
 			
 			layui.use('form', function() {
@@ -113,52 +118,59 @@
 								idData = res.record.id;
 								form.val("myForm", {
 									position:res.record.position,
-									statementdom:res.record.statementDom,
-//									claimdom:res.record.claimDom,
-									
-									
 								})
 								
-								$('[name="claimdom"]').html(res.record.claimDom);
+								editor3.txt.html(res.record.statementDom)
 								editor4.txt.html(res.record.claimDom)
 		
 						}
 					}
 				});
-				//自定义验证规则
-				form.verify({
-					dom4Require: function(value) {
-						if(value.length < 1 || value == '<p><br></p>') {
-							return '请填写岗位期望';
-						}
-					},
-					
-				});
+				
+				
 				form.on('submit(tijiao)', function(form) {
-					$.ajax({
-						type: "post",
-						url: joinUsEdit,
-						async: true,
-						data: {
-							id:idData,
-							position:form.field.position,
-							statementdom:form.field.statementdom,
-							claimdom:form.field.claimdom,
-						},
-						success: function(res) {
-							if(res.code == 0) {
-								$('.action-btn-tijiao').attr('disabled', true)
-								parent.layer.msg('提交成功', {
-									icon: 1,
-									offset: 'tb', //右下角弹出
-									time: 1000, //2s后自动关闭
-								});
-								setTimeout(function() {
-									window.location.href = 'view.html'
-								}, 1000)
+					//自定义验证规则
+					if(editor3.txt.html() == '<p><br></p>' ||editor3.txt.html()==''){
+						parent.layer.msg('请输入岗位职责', {
+							icon: 5,
+							anim: 6,
+							offset: '50%', //右下角弹出
+							time: 1000, //2s后自动关闭
+						});
+					}else if(editor4.txt.html() == '<p><br></p>' ||editor4.txt.html()==''){
+						parent.layer.msg('请填写岗位期望', {
+							icon: 5,
+							anim: 6,
+							offset: '50%', //右下角弹出
+							time: 1000, //2s后自动关闭
+						});
+					}else{
+						$.ajax({
+							type: "post",
+							url: joinUsEdit,
+							async: true,
+							data: {
+								id:idData,
+								position:form.field.position,
+								statementdom:editor3.txt.html(),
+								claimdom:editor4.txt.html(),
+							},
+							success: function(res) {
+								if(res.code == 0) {
+									$('.action-btn-tijiao').attr('disabled', true)
+									parent.layer.msg('提交成功', {
+										icon: 1,
+										offset: 'tb', //右下角弹出
+										time: 1000, //2s后自动关闭
+									});
+									setTimeout(function() {
+										window.location.href = 'view.html'
+									}, 1000)
+								}
 							}
-						}
-					});
+						});
+					}
+					
 					return false;
 				});
 		

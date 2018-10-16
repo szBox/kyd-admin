@@ -130,7 +130,7 @@
 				        layout: ['count', 'prev', 'page', 'next', 'skip'],
 				        theme: '#1E9FFF',
 				   },
-				   	limit:8,
+				   	limit:9,
 				   	limits: [2,10,20,50,100],
 				    url:cooperateTable,
 				    where: {name:''}, //如果无需传递额外参数，可不加该参数,pageIndex:1,pageSize:2
@@ -140,7 +140,7 @@
 				   	parseData: function(res){ //res 即为原始返回的数据
 				   		/*保存 删除- 分页的数据*/
 				   		console.log(res);
-				   		resdata = res.list;
+				   		resdata = res.records;
 				   		current = res.pager.pageIndex;
 					    return {
 					      "code": res.code, //解析接口状态

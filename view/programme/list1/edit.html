@@ -138,23 +138,20 @@
 				</div>
 				<div class="layui-form-item">
 					<label style="" class="layui-form-label my-label">方案概述：</label>
-					<div style="width: 500px;" class="my-from-input">
-						<div id="dom3" class="toolbar"></div>
-						<textarea name="dom3"value='' required lay-verify="dom3Require" placeholder="请输入方案概述" class="layui-textarea my-textarea"></textarea>
+					<div style="" class="my-from-input my-wangEditor-div">
+						<div style="" id="dom3"   class=""></div>
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label style="" class="layui-form-label my-label">方案设计：</label>
-					<div  style="width: 500px;" class="my-from-input">
-						<div id="dom4" class="toolbar wangEditor-upload"></div>
-						<textarea name="dom4" value=''  required lay-verify="dom4Require" placeholder="请输入方案设计" class="layui-textarea my-textarea"></textarea>
+					<div  style="" class="my-from-input my-wangEditor-div">
+						<div style="" id="dom4"   class=""></div>
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label style="" class="layui-form-label my-label">方案优势：</label>
-					<div style="width: 500px;" class="my-from-input">
-						<div id="dom5" class="toolbar"></div>
-						<textarea name="dom5"value=''  required lay-verify="dom5Require" placeholder="请输入方案优势" class="layui-textarea my-textarea"></textarea>
+					<div style="" class="my-from-input my-wangEditor-div">
+						<div style="" id="dom5"   class=""></div>
 					</div>
 				</div>
 				<div class="action-form-btns">
@@ -395,9 +392,6 @@
 								
 								
 								
-								$('[name="dom3"]').html(res.record.dom3);
-								$('[name="dom4"]').html(res.record.dom4);
-								$('[name="dom5"]').html(res.record.dom5);
 								editor3.txt.html(res.record.dom3)
 								editor4.txt.html(res.record.dom4)
 								editor5.txt.html(res.record.dom5)
@@ -461,23 +455,7 @@
 				        return '请上传场景图标';
 				      }
 				    },
-				    dom3Require: function(value, item){
-				    	console.log(item)
-				    	console.log('概述的value',value);
-				      if(value.length < 1 || value == '<p><br></p>'){
-				        return '请填写方案概述';
-				      }
-				    },
-				    dom4Require: function(value){
-				      if(value.length < 1 || value == '<p><br></p>'){
-				        return '请填写方案设计';
-				      }
-				    },
-				    dom5Require: function(value){
-				      if(value.length < 1 || value == '<p><br></p>'){
-				        return '请填写方案优势';
-				      }
-				    }
+				    
 				  });
 				
 				form.on('submit(tijiao)', function(form) {
@@ -488,7 +466,31 @@
 					var document2Id = $('[name="psd2"]').parent().next('.upload-psd-div').find('.upload-psd-p').attr('psd-id');
 					var deleteDocument1Id = $('[name="psd1"]').parent().next('.upload-psd-div').find('.upload-psd-p').attr('del-id');
 					var deleteDocument2Id = $('[name="psd2"]').parent().next('.upload-psd-div').find('.upload-psd-p').attr('del-id');
-					$.ajax({
+					if(editor3.txt.html() == '<p><br></p>' ||editor3.txt.html()==''){
+						parent.layer.msg('请填写方案概述', {
+							icon: 5,
+							anim: 6,
+							offset: '50%', //右下角弹出
+							time: 1000, //2s后自动关闭
+						});
+					}
+					else if(editor4.txt.html() == '<p><br></p>' ||editor4.txt.html()==''){
+						parent.layer.msg('请填写方案设计', {
+							icon: 5,
+							anim: 6,
+							offset: '50%', //右下角弹出
+							time: 1000, //2s后自动关闭
+						});
+					}
+					else if(editor5.txt.html() == '<p><br></p>' ||editor5.txt.html()==''){
+						parent.layer.msg('请填写方案优势', {
+							icon: 5,
+							anim: 6,
+							offset: '50%', //右下角弹出
+							time: 1000, //2s后自动关闭
+						});
+					}else{
+						$.ajax({
 						type: "post",
 						url: programmeEdit,
 						async: true,
@@ -511,9 +513,9 @@
 							document2:form.field.psd2,	//文档2
 							document2Name:document2Name,
 							document2Id:document2Id,
-							dom3:form.field.dom3,		//概述
-							dom4:form.field.dom4,		//特点	
-							dom5:form.field.dom5,		//参数
+							dom3:editor3.txt.html(),		//概述
+							dom4:editor4.txt.html(),		//特点	
+							dom5:editor5.txt.html(),		//参数
 						},
 						success: function(res) {
 							if(res.code == 0) {
@@ -529,6 +531,8 @@
 							}
 						}
 					});
+					}
+					
 					return false;
 				});
 			});

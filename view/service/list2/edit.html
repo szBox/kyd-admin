@@ -73,9 +73,8 @@
 				</div>
 				<div class="layui-form-item">
 					<label style="" class="layui-form-label my-label">文章内容：</label>
-					<div style="width: 500px;" class="my-from-input">
-						<div id="dom4" class="toolbar"></div>
-						<textarea name="content" value='' required lay-verify="dom4Require" placeholder="请输入文章内容" class="layui-textarea my-textarea"></textarea>
+					<div style="" class="my-from-input my-wangEditor-div">
+						<div style="" id="dom4"   class=""></div>
 					</div>
 				</div>
 				<div class="action-form-btns">
@@ -144,10 +143,7 @@
 			    // 上传代码返回结果之后，将图片插入到编辑器中
 			  
 			}
-           	editor4.customConfig.onchange = function(html) {
-				// 监控变化，同步更新到 textarea
-				$('[name="content"]').html(html);
-			}
+           
            	editor4.create();
 			
 			layui.use('element', function() {
@@ -185,7 +181,7 @@
 					      		$('[name="icon"]').val(res.record.iconUrl)
 								
 								
-								$('[name="content"]').html(res.record.content);
+								
 								editor4.txt.html(res.record.content)
 //								
 //								if(res.record.iconUrl.indexOf('?uploadId')){
@@ -218,7 +214,15 @@
 					
 				});
 				form.on('submit(tijiao)', function(form) {
-					$.ajax({
+					if(editor4.txt.html() == '<p><br></p>' ||editor4.txt.html()==''){
+						parent.layer.msg('请填写文章内容', {
+							icon: 5,
+							anim: 6,
+							offset: '50%', //右下角弹出
+							time: 1000, //2s后自动关闭
+						});
+					}else{
+						$.ajax({
 						type: "post",
 						url: skillEdit,
 						async: true,
@@ -229,7 +233,7 @@
 							summary:form.field.summary,
 							resource:form.field.resource,
 							icon:form.field.icon,
-							content:form.field.content,
+							content:editor4.txt.html(),
 						},
 						success: function(res) {
 							if(res.code == 0) {
@@ -245,6 +249,8 @@
 							}
 						}
 					});
+					}
+					
 					return false;
 				});
 		

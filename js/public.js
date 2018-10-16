@@ -1,6 +1,6 @@
 
 
-window.host='http://192.168.1.76:8080';
+window.host='http://192.168.1.84:8080';
 
 var form = null
 

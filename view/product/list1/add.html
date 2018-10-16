@@ -123,23 +123,22 @@
 				</div>
 				<div class="layui-form-item">
 					<label style="" class="layui-form-label my-label">产品概述：</label>
-					<div style="width: 500px;" class="my-from-input">
-						<div id="dom4" class="toolbar"></div>
-						<textarea name="dom4"value='' required lay-verify="dom4Require" placeholder="请输入产品概述" class="layui-textarea my-textarea"></textarea>
+					<div style="" class="my-from-input my-wangEditor-div">
+						<div id="dom4"></div>
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label style="" class="layui-form-label my-label">产品特点：</label>
-					<div  style="width: 500px;" class="my-from-input">
-						<div id="dom5" class="toolbar"></div>
-						<textarea name="dom5" value=''  required lay-verify="dom5Require" placeholder="请输入产品特点" class="layui-textarea my-textarea"></textarea>
+					<div  style="" class="my-from-input my-wangEditor-div">
+						<div id="dom5"></div>
+						
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label style="" class="layui-form-label my-label">产品参数：</label>
-					<div style="width: 500px;" class="my-from-input">
-						<div id="dom6" class="toolbar"></div>
-						<textarea name="dom6"value=''  required lay-verify="dom6Require" placeholder="请输入产品参数" class="layui-textarea my-textarea"></textarea>
+					<div style="" class="my-from-input my-wangEditor-div">
+						<div id="dom6"></div>
+						
 					</div>
 				</div>
 				<div class="action-form-btns">
@@ -179,20 +178,8 @@
 		        'fontSize',
 		        'undo',
 		    ]
+
 	        
-	       
-	        editor4.customConfig.onchange= function (html) {
-            // 监控变化，同步更新到 textarea
-            	 $('[name="dom4"]').html(html);
-        	}
-	        editor5.customConfig.onchange= function (html) {
-            // 监控变化，同步更新到 textarea
-            	 $('[name="dom5"]').html(html);
-        	}
-	        editor6.customConfig.onchange= function (html) {
-            // 监控变化，同步更新到 textarea
-            	 $('[name="dom6"]').html(html);
-        	}
 	        editor4.create();
 	 		editor5.create();
 	        editor6.create();
@@ -213,23 +200,7 @@
 				        return '请上传图片';
 				      }
 				    },
-				    dom4Require: function(value, item){
-				    	console.log(item)
-				    	console.log('概述的value',value);
-				      if(value.length < 1 || value == '<p><br></p>'){
-				        return '请填写产品概述';
-				      }
-				    },
-				    dom5Require: function(value){
-				      if(value.length < 1 || value == '<p><br></p>'){
-				        return '请填写产品特点';
-				      }
-				    },
-				    dom6Require: function(value){
-				      if(value.length < 1 || value == '<p><br></p>'){
-				        return '请填写产品功能';
-				      }
-				    }
+				 
 				  });
 				/*监听 产品类别 改变*/
 				form.on('select(pro1)', function(data){
@@ -241,41 +212,66 @@
 				form.on('submit(tijiao)', function(form) {
 					var document1Name = $('[name="psd1"]').parent().next('.upload-psd-div').find('.upload-psd-p').html();
 					var document2Name = $('[name="psd2"]').parent().next('.upload-psd-div').find('.upload-psd-p').html();
-					$.ajax({
-						type: "post",
-						url: productAdd,
-						async: true,
-						data: {
-							type2Id:form.field.pro2,	//2级目录
-							model:form.field.model,		//编号
-							name: form.field.name,		//名称
-							synopsis:form.field.synopsis, 		//功能描述
-							dom1:form.field.synopsis, 		//功能描述
-							dom2:form.field.dom2, 		//特征1
-							dom3:form.field.dom3,		//特征2
-							icon:form.field.icon,		//图片
-							document1:form.field.psd1,	//文档1
-							document1Name:document1Name,
-							document2:form.field.psd2,	//文档2
-							document2Name:document2Name,
-							dom4:form.field.dom4,		//概述
-							dom5:form.field.dom5,		//特点	
-							dom6:form.field.dom6,		//参数
-						},
-						success: function(res) {
-							if(res.code == 0) {
-								$('.action-btn-tijiao').attr('disabled', true)
-								parent.layer.msg('提交成功', {
-									icon: 1,
-									offset: 'tb', //右下角弹出
-									time: 1000, //2s后自动关闭
-								});
-								setTimeout(function() {
-									window.location.href = 'view.html'
-								}, 1000)
+					if(editor4.txt.html() == '<p><br></p>' ||editor4.txt.html()==''){
+						parent.layer.msg('请填写产品概述', {
+							icon: 5,
+							anim: 6,
+							offset: '50%', //右下角弹出
+							time: 1000, //2s后自动关闭
+						});
+					}
+					else if(editor5.txt.html() == '<p><br></p>' ||editor5.txt.html()==''){
+						parent.layer.msg('请填写产品特点', {
+							icon: 5,
+							anim: 6,
+							offset: '50%', //右下角弹出
+							time: 1000, //2s后自动关闭
+						});
+					}
+					else if(editor6.txt.html() == '<p><br></p>' ||editor6.txt.html()==''){
+						parent.layer.msg('请填写产品参数', {
+							icon: 5,
+							anim: 6,
+							offset: '50%', //右下角弹出
+							time: 1000, //2s后自动关闭
+						});
+					}else{
+						$.ajax({
+							type: "post",
+							url: productAdd,
+							async: true,
+							data: {
+								type2Id:form.field.pro2,	//2级目录
+								model:form.field.model,		//编号
+								name: form.field.name,		//名称
+								synopsis:form.field.synopsis, 		//功能描述
+								dom1:form.field.synopsis, 		//功能描述
+								dom2:form.field.dom2, 		//特征1
+								dom3:form.field.dom3,		//特征2
+								icon:form.field.icon,		//图片
+								document1:form.field.psd1,	//文档1
+								document1Name:document1Name,
+								document2:form.field.psd2,	//文档2
+								document2Name:document2Name,
+								dom4:editor4.txt.html(),		//概述
+								dom5:editor5.txt.html(),		//特点	
+								dom6:editor6.txt.html(),		//参数
+							},
+							success: function(res) {
+								if(res.code == 0) {
+									$('.action-btn-tijiao').attr('disabled', true)
+									parent.layer.msg('提交成功', {
+										icon: 1,
+										offset: 'tb', //右下角弹出
+										time: 1000, //2s后自动关闭
+									});
+									setTimeout(function() {
+										window.location.href = 'view.html'
+									}, 1000)
+								}
 							}
-						}
-					});
+						});
+					}
 					return false;
 				});
 			});

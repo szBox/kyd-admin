@@ -215,9 +215,23 @@ form.my-form-search .layui-form-item{
 .w-e-text{
 	
 }
+
+.my-wangEditor-div{
+	width: 800px;
+	min-height: 400px;
+	margin-bottom: 15px;
+}
+.my-wangEditor-div .w-e-text-container{
+	min-height: 400px;
+}
+.my-wangEditor-div .w-e-text-container li{
+	margin: 8px 0;
+}
+
+
 /*富文本  上传图片*/
 .wangEditor-upload img{
-	height: 100px !important;
+	/*height: 100px !important;*/
 }
 
 

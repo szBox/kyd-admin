@@ -101,57 +101,26 @@
 					</div>
 				</div>
 
-				<!--<div class="layui-form-item">
-					<label style="" class="layui-form-label my-label">上传场景文档<span>(可选)</span>：</label>
-					<div style="width: 300px;" class="my-from-input">
-						<button type="button" class="file-btn layui-btn layui-btn-normal">
-						  <i class="layui-icon">&#xe67c;</i>点击上传
-						  <input type="file" accept=".xls,.doc,.pdf,.docx" class="file-psd"/>
-						  <input type="hidden" class="psd-data"  value="" name="psd1" />
-						</button>
-						<div class="upload-psd-div">
-							<span class="layui-icon layui-icon-file"></span>
-							<i class="layui-icon layui-icon-close-fill  upload-psd-close" data-close=''></i>
-							<p class="upload-psd-p ellipsis"></p>
-						</div>
-						<p class="file-tips">上传doc、docx、pdf文件</p>
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<label style="" class="layui-form-label my-label">上传技术文档<span>(可选)</span>：</label>
-					<div style="width: 300px;" class="my-from-input">
-						<button type="button" class="file-btn layui-btn layui-btn-normal" id="test2">
-						  <i class="layui-icon">&#xe67c;</i>点击上传
-						  <input type="file"  accept=".xls,.doc,.pdf,.docx" class="file-psd" />
-						  <input type="hidden" class="psd-data"  value="" name="psd2" />
-						</button>
-						<div class="upload-psd-div">
-							<span class="layui-icon layui-icon-file"></span>
-							<i class="layui-icon layui-icon-close-fill  upload-psd-close" data-close=''></i>
-							<p class="upload-psd-p ellipsis"></p>
-						</div>
-						<p class="file-tips">上传doc、docx、pdf文件</p>
-					</div>
-				</div>-->
-				<div class="layui-form-item">
+				
+				<div class="layui-form-item ">
 					<label style="" class="layui-form-label my-label">方案概述/客户背景：</label>
-					<div style="width: 500px;" class="my-from-input">
-						<div id="dom3" class="toolbar"></div>
-						<textarea name="dom3" value='' required lay-verify="dom3Require" placeholder="请输入方案概述" class="layui-textarea my-textarea"></textarea>
+					<div style="" class="my-from-input my-wangEditor-div">
+						<!--<div id="dom3" class="toolbar"></div>-->
+						<div style="" id="dom3" name="dom3"   class=""></div>
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label style="" class="layui-form-label my-label">方案设计/业务挑战：</label>
-					<div style="width: 500px;" class="my-from-input">
-						<div id="dom4" class="toolbar wangEditor-upload"></div>
-						<textarea name="dom4" value='' required lay-verify="dom4Require" placeholder="请输入方案设计" class="layui-textarea my-textarea"></textarea>
+					<div style="" class="my-from-input  my-wangEditor-div">
+						<!--<div id="dom4" class="toolbar wangEditor-upload"></div>-->
+						<div id="dom4" name="dom4"   class=""></div>
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label style="" class="layui-form-label my-label">方案优势/客户价值：</label>
-					<div style="width: 500px;" class="my-from-input">
-						<div id="dom5" class="toolbar"></div>
-						<textarea name="dom5" value='' required lay-verify="dom5Require" placeholder="请输入方案优势" class="layui-textarea my-textarea"></textarea>
+					<div style="" class="my-from-input  my-wangEditor-div">
+						<!--<div id="dom5" class="toolbar"></div>-->
+						<div id="dom5" name="dom5"   class=""></div>
 					</div>
 				</div>
 				<div class="action-form-btns">
@@ -266,18 +235,6 @@
 				'undo',
 			]
 
-			editor3.customConfig.onchange = function(html) {
-				// 监控变化，同步更新到 textarea
-				$('[name="dom3"]').html(html);
-			}
-			editor4.customConfig.onchange = function(html) {
-				// 监控变化，同步更新到 textarea
-				$('[name="dom4"]').html(html);
-			}
-			editor5.customConfig.onchange = function(html) {
-				// 监控变化，同步更新到 textarea
-				$('[name="dom5"]').html(html);
-			}
 			editor3.create();
 			editor4.create();
 			editor5.create();
@@ -378,65 +335,75 @@
 							return '请上传案例图标';
 						}
 					},
-					dom3Require: function(value, item) {
-						console.log(item)
-						console.log('概述的value', value);
-						if(value.length < 1 || value == '<p><br></p>') {
-							return '请填写方案概述';
-						}
-					},
-					dom4Require: function(value) {
-						if(value.length < 1 || value == '<p><br></p>') {
-							return '请填写方案设计';
-						}
-					},
-					dom5Require: function(value) {
-						if(value.length < 1 || value == '<p><br></p>') {
-							return '请填写方案优势';
-						}
-					}
+				
 				});
 		
 				form.on('submit(tijiao)', function(form) {
 //					var document1Name = $('[name="psd1"]').parent().next('.upload-psd-div').find('.upload-psd-p').html();
 //					var document2Name = $('[name="psd2"]').parent().next('.upload-psd-div').find('.upload-psd-p').html();
-					$.ajax({
-						type: "post",
-						url: casesAdd,
-						async: true,
-						data: {
-							id: form.field.pro1, //2级目录
-							model: form.field.model, //编号
-							name: form.field.name, //名称
-							synopsis: form.field.synopsis, //功能描述
-							dom1: form.field.dom1, //特征1
-							dom2: form.field.dom2, //特征2
-							products: ids.join(','), //相关产品
-							img: form.field.img, //封面
-							icon: form.field.icon, //图标
-
-//							document1: form.field.psd1, //文档1
-//							document1Name: document1Name,
-//							document2: form.field.psd2, //文档2
-//							document2Name: document2Name,
-							dom3: form.field.dom3, //概述
-							dom4: form.field.dom4, //特点	
-							dom5: form.field.dom5, //参数
-						},
-						success: function(res) {
-							if(res.code == 0) {
-								$('.action-btn-tijiao').attr('disabled', true)
-								parent.layer.msg('提交成功', {
-									icon: 1,
-									offset: 'tb', //右下角弹出
-									time: 1000, //2s后自动关闭
-								});
-								setTimeout(function() {
-									window.location.href = 'view.html'
-								}, 1000)
+					if(editor3.txt.html() == '<p><br></p>' ||editor3.txt.html()==''){
+						parent.layer.msg('请填写方案概述', {
+							icon: 5,
+							anim: 6,
+							offset: '50%', //右下角弹出
+							time: 1000, //2s后自动关闭
+						});
+					}
+					else if(editor4.txt.html() == '<p><br></p>' ||editor4.txt.html()==''){
+						parent.layer.msg('请填写方案设计', {
+							icon: 5,
+							anim: 6,
+							offset: '50%', //右下角弹出
+							time: 1000, //2s后自动关闭
+						});
+					}
+					else if(editor5.txt.html() == '<p><br></p>' ||editor5.txt.html()==''){
+						parent.layer.msg('请填写方案优势', {
+							icon: 5,
+							anim: 6,
+							offset: '50%', //右下角弹出
+							time: 1000, //2s后自动关闭
+						});
+					}else{
+						$.ajax({
+							type: "post",
+							url: casesAdd,
+							async: true,
+							data: {
+								id: form.field.pro1, //2级目录
+								model: form.field.model, //编号
+								name: form.field.name, //名称
+								synopsis: form.field.synopsis, //功能描述
+								dom1: form.field.dom1, //特征1
+								dom2: form.field.dom2, //特征2
+								products: ids.join(','), //相关产品
+								img: form.field.img, //封面
+								icon: form.field.icon, //图标
+	
+	//							document1: form.field.psd1, //文档1
+	//							document1Name: document1Name,
+	//							document2: form.field.psd2, //文档2
+	//							document2Name: document2Name,
+								dom3:editor3.txt.html(),		//概述
+								dom4:editor4.txt.html(),		//特点	
+								dom5:editor5.txt.html(),		//参数
+							},
+							success: function(res) {
+								if(res.code == 0) {
+									$('.action-btn-tijiao').attr('disabled', true)
+									parent.layer.msg('提交成功', {
+										icon: 1,
+										offset: 'tb', //右下角弹出
+										time: 1000, //2s后自动关闭
+									});
+									setTimeout(function() {
+										window.location.href = 'view.html'
+									}, 1000)
+								}
 							}
-						}
-					});
+						});
+					}
+					
 					return false;
 				});
 			});

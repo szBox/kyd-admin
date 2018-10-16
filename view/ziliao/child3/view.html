@@ -94,7 +94,7 @@
 				   	parseData: function(res){ //res 即为原始返回的数据
 				   		/*保存 删除- 分页的数据*/
 				   		console.log(res);
-				   		resdata = res.list;
+				   		resdata = res.records;
 				   		current = res.pager.pageIndex;
 					    return {
 					      "code": res.code, //解析接口状态

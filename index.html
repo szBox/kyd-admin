@@ -4,13 +4,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>精优达--后台管理系统</title>
+ 	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
 	<script src="js/jquery-2.1.0.js"></script>
 	<script src="layui/layui.js"></script>
 	<script src="js/public.js"></script>
   <link rel="stylesheet" href="layui/css/layui.css">
   <link rel="stylesheet" type="text/css" href="css/style.css"/>
   <link rel="stylesheet" type="text/css" href="font/iconfont.css"/>
+  <script>
   
+	var isLogin = sessionStorage.getItem('isLogin');
+	if(isLogin != 'true'){
+		window.location.href='login.html'
+	}
+  
+  
+  </script>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -23,7 +32,7 @@
     <ul class="layui-nav layui-layout-right" style="padding-right: 40px;">
     	<li class="layui-nav-item" style="margin-right: 42px;">
     		<p class="msg-box">
-    			<i class="iconfont icon-xiaoxi msg-show"></i>
+    			<i class="iconfont icon-xiaoxi"></i>
     			<span class='msg-num msg-show'></span>
     		</p>
         
@@ -142,11 +151,15 @@ var layer = layui.layer;
 					if(res.record.total>0){
 						$('.msg-show').show();
 						$('.msg-num').html(res.record.total)
+						if(res.record.total>99){
+							$('.msg-show').show();
+							$('.msg-num').html(99)
+						}
+					}else{
+						$('.msg-show').hide();
+//						$('.msg-num').html(res.record.total)
 					}
-					if(res.record.total>99){
-						$('.msg-show').show();
-						$('.msg-num').html(99)
-					}
+					
 				}
 			}
 		});
@@ -156,17 +169,10 @@ $(function(){
 	$('#my-content').attr('src','view/product/list1/view.html')
 	
 	isRead();
-	
-	//读取用户信息
+		//读取用户信息
 	var admin =JSON.parse(localStorage.getItem('adminLogin'));
 	if(admin){
 		$('.admin-user').html(admin.name)
-	}
-	console.log(admin,'22222222')
-//	$('.admin-user').html(admin.name)
-	var isLogin = sessionStorage.getItem('isLogin');
-	if(isLogin != 'true'){
-		window.location.href='login.html'
 	}
 	
 	
