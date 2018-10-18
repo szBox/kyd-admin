@@ -40,7 +40,7 @@
       </li>
       <li class="layui-nav-item" style="padding-left: 0;">
         <a href="javascript:;" style="padding-left: 0;">
-          <img src="img/admin-2.png" class="layui-nav-img" style="margin-top: -5px;">
+          <img src="img/admin_icon.png" class="layui-nav-img" style="margin-top: -5px;">
           <span class="admin-user"></span><!--测试工程师-林俊锋1-->
         </a>
         <dl class="layui-nav-child">
@@ -179,6 +179,10 @@ $(function(){
 })
 //点击对应的左侧菜单进行右部页面加载
 $('.layui-nav-child a').on('click', function (e) {
+	var isLogin = sessionStorage.getItem('isLogin');
+	if(isLogin != 'true'){
+		window.location.href='login.html'
+	}
 	var $this = $(this)
 	e.preventDefault()
 //	if(!$this.parent().hasClass('layui-this')){

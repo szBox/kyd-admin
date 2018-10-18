@@ -9,6 +9,17 @@
 		<script src="../../../layui/layui.js"></script>
 		<script src="../../../js/public.js"></script>
 		<link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+		<script>
+  
+	var isLogin = sessionStorage.getItem('isLogin');
+	if(isLogin != 'true'){
+		window.location.href='../../../login.html'
+		//没有回到登陆页面去。。还保留了左边那个玩意、、、
+		
+	}
+  
+  
+  </script>
 	</head>
 
 	<body class="my-body">

@@ -2,6 +2,24 @@
 
 window.host='http://192.168.1.84:8080';
 
+
+//setInterval(function(){
+//	var isLogin = sessionStorage.getItem('isLogin');
+//	if(isLogin != 'true'){
+//		if(window.location.href!=window.host+'http://192.168.1.84:8020/Boot-admin/login.html'){
+//			//判断不是在登录页
+//			if (window.frames.length != parent.frames.length) { 
+//			//判断是否在iframe里面，如果在，让父页面跳
+//			
+//				parent.location.href='http://192.168.1.84:8020/Boot-admin/login.html';
+//			}else{
+//				window.location.href='http://192.168.1.84:8020/Boot-admin/login.html';
+//			}
+//		}
+//		
+//	}
+//},1000)
+	
 var form = null
 
 layui.use(['layer', 'form', 'element'], function(){
